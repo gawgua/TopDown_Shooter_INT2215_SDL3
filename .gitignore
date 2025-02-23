@@ -1,3 +1,9 @@
+# Visual Studio config folder
+.vs
+
+# Visual Studio build folder
+build
+
 # Prerequisites
 *.d
 
