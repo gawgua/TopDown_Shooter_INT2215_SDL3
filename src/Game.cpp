@@ -2,11 +2,11 @@
 
 Game::Game()
 {
-	mWindow = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_TARGETTEXTURE);
+	mWindow = SDL_CreateWindow(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_MAXIMIZED);
+	mRenderer = SDL_CreateRenderer(mWindow, NULL);
 	mBgMusic = Mix_LoadWAV(mBgMusicPath);
 	Mix_VolumeChunk(mBgMusic, BACKGROUND_MUSIC_VOL);
-	mGameState = { this, nullptr, nullptr, nullptr, 0, 0,0, false, false};
+	mGameState = { this, nullptr, nullptr, nullptr, 0, 0, 0, false, false};
 	mScoreText = nullptr;
 }
 
@@ -19,41 +19,35 @@ Game::~Game()
 
 bool Game::Init()
 {
-	srand(time(NULL));
+	SDL_srand(SDL_GetPerformanceCounter());
 
-	if (SDL_Init(SDL_INIT_EVERYTHING))
+	if (!SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO))
 	{
 		SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
 		return false;
 	}
 
-	int imgFlag = IMG_INIT_PNG | IMG_INIT_JPG;
-	if (IMG_Init(imgFlag) != imgFlag)
+	if (!TTF_Init())
 	{
-		SDL_Log("Failed to initialize SDL_image: %s", IMG_GetError());
+		SDL_Log("Failed to initialize SDL_ttf: %s", SDL_GetError());
 		return false;
 	}
 
-	if (TTF_Init())
+	if (Mix_Init(MIX_INIT_WAVPACK) != MIX_INIT_WAVPACK)
 	{
-		SDL_Log("Failed to initialize SDL_ttf: %s", TTF_GetError());
+		SDL_Log("Failed to initialize SDL_mixer: %s", SDL_GetError());
 		return false;
 	}
-
-	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 2048))
-	{
-		SDL_Log("Failed to initialize SDL_mixer: %s", Mix_GetError());
-		return false;
-	}
+	Mix_OpenAudio(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
 
 	return true;
 }
 
 void Game::Quit()
 {
-	IMG_Quit();
 	TTF_Quit();
 	Mix_CloseAudio();
+	Mix_Quit();
 	SDL_Quit();
 }
 
@@ -96,14 +90,14 @@ void Game::ProcessInput()
 	{
 		switch (event.type)
 		{
-		case SDL_QUIT:
+		case SDL_EVENT_QUIT:
 			mGameState.isUserExit = true;
 			break;
-		case SDL_MOUSEBUTTONDOWN:
+		case SDL_EVENT_MOUSE_BUTTON_DOWN:
 			//mGameState.score++;
 			mGameState.player->shoot();
 			break;
-		case SDL_MOUSEMOTION:
+		case SDL_EVENT_MOUSE_MOTION:
 			mGameState.mouseX = event.motion.x;
 			mGameState.mouseY = event.motion.y;
 			break;

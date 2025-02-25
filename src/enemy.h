@@ -1,9 +1,9 @@
 #pragma once
-#include <SDL2/SDL.h>
-#include <SDL2_image/SDL_image.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 
 #include "constant.h"
-#include "game.h"
+#include "gamestate.h"
 #include "entity.h"
 
 class Enemy : public Entity {
@@ -13,7 +13,7 @@ public:
 	void Update();	
 	void Render();
 
-	static Uint32 Spawn(Uint32 interval, void* gameState); // SDL_AddTimer callback need void*
+	static Uint32 Spawn(void* pGameState, SDL_TimerID id, Uint32 interval); // SDL_AddTimer callback need void*
 
 	void onCollision(EntityType type);
 private:

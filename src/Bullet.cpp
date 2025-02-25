@@ -35,7 +35,7 @@ void Bullet::Update()
 	while (enemyNode)
 	{
 		SDL_FRect enemyHitbox = enemyNode->data.getHitbox();
-		if (SDL_HasIntersectionF(&mHitboxRect, &enemyHitbox))
+		if (SDL_HasRectIntersectionFloat(&mHitboxRect, &enemyHitbox))
 		{
 			isCollisionWith(&enemyNode->data);
 		}
@@ -45,13 +45,13 @@ void Bullet::Update()
 
 void Bullet::Render()
 {
-	SDL_RenderCopyExF(mGameState->game->getRenderer(), mTexture, nullptr, &mTexRect, mAngle, NULL, SDL_FLIP_NONE);
+	SDL_RenderTextureRotated(mGameState->game->getRenderer(), mTexture, nullptr, &mTexRect, mAngle, NULL, SDL_FLIP_NONE);
 	//Debug hitbox
 	SDL_SetRenderDrawColor(mGameState->game->getRenderer(), 255, 0, 0, 255);
-	SDL_RenderDrawRectF(mGameState->game->getRenderer(), &mHitboxRect);
+	SDL_RenderRect(mGameState->game->getRenderer(), &mHitboxRect);
 	//debug angle
 	SDL_SetRenderDrawColor(mGameState->game->getRenderer(), 0, 0, 255, 255);
-	SDL_RenderDrawLineF(mGameState->game->getRenderer(), mTexRect.x + mTexRect.w / 2, mTexRect.y + mTexRect.h / 2, mTexRect.x + mTexRect.w / 2 + 50 * SDL_cos(mAngle * M_PI / 180), mTexRect.y + mTexRect.h / 2 + 50 * SDL_sin(mAngle * M_PI / 180));
+	SDL_RenderLine(mGameState->game->getRenderer(), mTexRect.x + mTexRect.w / 2, mTexRect.y + mTexRect.h / 2, mTexRect.x + mTexRect.w / 2 + 50 * SDL_cos(mAngle * SDL_PI_D / 180), mTexRect.y + mTexRect.h / 2 + 50 * SDL_sin(mAngle * SDL_PI_D / 180));
 }
 
 void Bullet::move()

@@ -15,12 +15,12 @@ ScoreText::~ScoreText()
 void ScoreText::Render()
 {
 	std::string score = std::to_string(mGameState->score);
-	SDL_Surface* surface = TTF_RenderUTF8_Solid(mFont, score.c_str(), mFontColor);
+	SDL_Surface* surface = TTF_RenderText_Solid(mFont, score.c_str(), 0, mFontColor);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(mRenderer, surface);
-	SDL_Rect textPos = { 15, 15, surface->w, surface->h };
+	SDL_FRect textPos = { 15, 15, surface->w, surface->h };
 
-	SDL_RenderCopy(mRenderer, texture, nullptr, &textPos);
-	SDL_FreeSurface(surface);
+	SDL_RenderTexture(mRenderer, texture, nullptr, &textPos);
+	SDL_DestroySurface(surface);
 	SDL_DestroyTexture(texture);
 }
 

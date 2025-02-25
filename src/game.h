@@ -1,32 +1,13 @@
 #pragma once
-#include <SDL2/SDL.h>
-#include <SDL2_image/SDL_image.h>
-#include <SDL2_ttf/SDL_ttf.h>
-#include <SDL2_mixer/SDL_mixer.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
+#include <SDL3_mixer/SDL_mixer.h>
 #include <time.h>
 
 #include "constant.h"
-
-//forward declaration to avoid circular dependency
-template <class T>
-class LinkedList;
-class Game;
-class ScoreText;
-class Player;
-class Enemy;
-class Bullet;
-
-struct GameState {
-	Game* game;
-	Player* player;
-	LinkedList<Enemy>* enemies;
-	LinkedList<Bullet>* bullets;
-
-	int mouseX, mouseY;
-	unsigned int score;
-	bool isGameOver;
-	bool isUserExit;
-};
+#include "gamestate.h"
+#include "scoretext.h"
 
 class Game {
 public:
@@ -56,9 +37,3 @@ private:
 	const SDL_Color mBgColor = { 123, 201, 24 };
 	const char* mBgMusicPath = "assets/sound/bg_music.wav";
 };
-
-#include "linkedlist.h"
-#include "scoretext.h"
-#include "enemy.h"
-#include "player.h"
-#include "bullet.h"

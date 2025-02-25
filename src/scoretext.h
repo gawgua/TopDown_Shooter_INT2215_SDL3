@@ -1,9 +1,9 @@
 #pragma once
-#include <SDL2/SDL.h>
-#include <SDL2_ttf/SDL_ttf.h>
+#include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <string>
 
-#include "game.h"
+struct GameState;
 
 class ScoreText
 {
@@ -17,6 +17,8 @@ private:
 	TTF_Font* mFont;
 
 	const char* mFontPath = "assets/font/font.ttf";
-	const int mFontSize = 50;
+	const int mFontSize = 70;
 	const SDL_Color mFontColor = { 255, 255, 255 };
 };
+
+#include "gamestate.h"

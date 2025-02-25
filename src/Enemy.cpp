@@ -40,16 +40,16 @@ void Enemy::Update()
 
 void Enemy::Render()
 {
-	SDL_RenderCopyExF(mGameState->game->getRenderer(), mTexture, nullptr, &mTexRect, mAngle, NULL, SDL_FLIP_NONE);
+	SDL_RenderTextureRotated(mGameState->game->getRenderer(), mTexture, nullptr, &mTexRect, mAngle, NULL, SDL_FLIP_NONE);
 	//Debug hitbox
 	SDL_SetRenderDrawColor(mGameState->game->getRenderer(), 255, 0, 0, 255);
-	SDL_RenderDrawRectF(mGameState->game->getRenderer(), &mHitboxRect);
+	SDL_RenderRect(mGameState->game->getRenderer(), &mHitboxRect);
 	//debug angle
 	SDL_SetRenderDrawColor(mGameState->game->getRenderer(), 0, 0, 255, 255);
-	SDL_RenderDrawLineF(mGameState->game->getRenderer(), mTexRect.x + mTexRect.w / 2, mTexRect.y + mTexRect.h / 2, mTexRect.x + mTexRect.w / 2 + 50 * SDL_cos(mAngle * M_PI / 180), mTexRect.y + mTexRect.h / 2 + 50 * SDL_sin(mAngle * M_PI / 180));
+	SDL_RenderLine(mGameState->game->getRenderer(), mTexRect.x + mTexRect.w / 2, mTexRect.y + mTexRect.h / 2, mTexRect.x + mTexRect.w / 2 + 50 * SDL_cos(mAngle * SDL_PI_D / 180), mTexRect.y + mTexRect.h / 2 + 50 * SDL_sin(mAngle * SDL_PI_D / 180));
 }
 
-Uint32 Enemy::Spawn(Uint32 interval, void* pGameState)
+Uint32 Enemy::Spawn(void* pGameState, SDL_TimerID id, Uint32 interval)
 {
 	GameState* gameState = (GameState*)pGameState;
 	gameState->enemies->push_back(Enemy(gameState));
@@ -61,25 +61,25 @@ SDL_Point Enemy::getRandSpawnPos()
 	enum ScreenSide { TOP, RIGHT, BOTTOM, LEFT };
 	SDL_Point spawnPos;
 	//random spawn position
-	ScreenSide side = (ScreenSide)(rand() % 4);
+	ScreenSide side = (ScreenSide)(SDL_rand(4));
 
 	switch (side)
 	{
 	case TOP:
-		spawnPos.x = rand() % SCREEN_WIDTH;
+		spawnPos.x = SDL_rand(SCREEN_WIDTH);
 		spawnPos.y = 0;
 		break;
 	case RIGHT:
 		spawnPos.x = SCREEN_WIDTH;
-		spawnPos.y = rand() % SCREEN_HEIGHT;
+		spawnPos.y = SDL_rand(SCREEN_HEIGHT);
 		break;
 	case BOTTOM:
-		spawnPos.x = rand() % SCREEN_WIDTH;
+		spawnPos.x = SDL_rand(SCREEN_WIDTH);
 		spawnPos.y = SCREEN_HEIGHT;
 		break;
 	case LEFT:
 		spawnPos.x = 0;
-		spawnPos.y = rand() % SCREEN_HEIGHT;
+		spawnPos.y = SDL_rand(SCREEN_HEIGHT);
 		break;
 	}
 
@@ -112,5 +112,5 @@ void Enemy::rotateToPlayer()
 	SDL_FPoint playerHitbox = mGameState->player->getCenter();
 	// tan(a) = doi / ke
 	mAngleRad = SDL_atan2(playerHitbox.y - enemyHitbox.y, playerHitbox.x - enemyHitbox.x); //radian
-	mAngle = (int)(mAngleRad * 180 / M_PI + 360) % 360; //convert to degree
+	mAngle = (int)(mAngleRad * 180 / SDL_PI_D + 360) % 360; //convert to degree
 }

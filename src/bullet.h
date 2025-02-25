@@ -1,10 +1,10 @@
 #pragma once
-#include <SDL2/SDL.h>
-#include <SDL2_image/SDL_image.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 
 #include "constant.h"
+#include "gamestate.h"
 #include "entity.h"
-#include "game.h"
 
 class Bullet : public Entity {
 public:

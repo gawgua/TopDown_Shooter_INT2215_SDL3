@@ -33,13 +33,13 @@ void Player::Update()
 
 void Player::Render()
 {
-	SDL_RenderCopyExF(mGameState->game->getRenderer(), mTexture, nullptr, &mTexRect, mAngle, NULL, SDL_FLIP_NONE);
+	SDL_RenderTextureRotated(mGameState->game->getRenderer(), mTexture, nullptr, &mTexRect, mAngle, NULL, SDL_FLIP_NONE);
 	//Debug hitbox
 	SDL_SetRenderDrawColor(mGameState->game->getRenderer(), 255, 0, 0, 255);
-	SDL_RenderDrawRectF(mGameState->game->getRenderer(), &mHitboxRect);
+	SDL_RenderRect(mGameState->game->getRenderer(), &mHitboxRect);
 	//debug angle
 	SDL_SetRenderDrawColor(mGameState->game->getRenderer(), 0, 0, 255, 255);
-	SDL_RenderDrawLineF(mGameState->game->getRenderer(), mTexRect.x + mTexRect.w / 2, mTexRect.y + mTexRect.h / 2, mTexRect.x + mTexRect.w / 2 + 50 * SDL_cos(mAngle * M_PI / 180), mTexRect.y + mTexRect.h / 2 + 50 * SDL_sin(mAngle * M_PI / 180));
+	SDL_RenderLine(mGameState->game->getRenderer(), mTexRect.x + mTexRect.w / 2, mTexRect.y + mTexRect.h / 2, mTexRect.x + mTexRect.w / 2 + 50 * SDL_cos(mAngle * SDL_PI_D / 180), mTexRect.y + mTexRect.h / 2 + 50 * SDL_sin(mAngle * SDL_PI_D / 180));
 }
 
 void Player::shoot()
@@ -58,5 +58,5 @@ void Player::rotateToMouse()
 	SDL_FPoint playerCenter = getCenter();
 	// tan(a) = doi / ke
 	mAngleRad = SDL_atan2(mGameState->mouseY - playerCenter.y, mGameState->mouseX - playerCenter.x); //radian
-	mAngle = (int)(mAngleRad * 180 / M_PI + 360) % 360; //convert to degree 
+	mAngle = (int)(mAngleRad * 180 / SDL_PI_D + 360) % 360; //convert to degree 
 }

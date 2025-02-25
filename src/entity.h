@@ -1,9 +1,9 @@
 #pragma once
-#include <SDL2/SDL.h>
-#include <SDL2_image/SDL_image.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 
 #include "constant.h"
-struct GameState; //forward declaration
+struct GameState;
 
 enum EntityType
 {
@@ -26,9 +26,10 @@ public:
 	SDL_FRect getTexRect() { return mTexRect; }
 	float getRadianAngle() { return mAngleRad; }
 	int getAngle() { return mAngle; }
-	void isCollisionWith(Entity* other) {
+	void isCollisionWith(Entity* other) 
+	{
 		SDL_FRect otherHitbox = other->getHitbox();
-		if (SDL_HasIntersectionF(&mHitboxRect, &otherHitbox))
+		if (SDL_HasRectIntersectionFloat(&mHitboxRect, &otherHitbox))
 		{
 			onCollision(other->getType());
 			other->onCollision(mType);
@@ -39,8 +40,9 @@ public:
 	virtual void Update() = 0;
 	virtual void onCollision(EntityType type) = 0;
 protected:
-	void checkOutsideScreen() {
-		if (mTexRect.x < 0 || mTexRect.x + mTexRect.w > SCREEN_WIDTH || mTexRect.y < 0 || mTexRect.y + mTexRect.h > SCREEN_HEIGHT)
+	void checkOutsideScreen()
+	{
+		if (mTexRect.x < 0 || mTexRect.x > SCREEN_WIDTH || mTexRect.y < 0 || mTexRect.y > SCREEN_HEIGHT)
 			mIsAlive = false;
 	}
 
@@ -61,4 +63,4 @@ protected:
 	const char* mTexturePath;
 };
 
-#include "game.h"
+#include "gamestate.h"
