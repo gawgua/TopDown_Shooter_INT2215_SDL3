@@ -21,6 +21,6 @@ private:
 
 	const char* mEnemyTexturePath = "assets/image/enemy.png";
 	const float mTexSize = 100.0;
-	const float mHitboxSize = 75.0;
+	const float mHitboxSize = 90.0;
 	float mSpeed = 2.5;
 };
