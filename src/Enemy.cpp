@@ -24,11 +24,6 @@ Enemy::Enemy(GameState* gameState)
 	mIsAlive = true;
 }
 
-Enemy::~Enemy()
-{
-	SDL_DestroyTexture(mTexture);
-}
-
 void Enemy::Update()
 {
 	rotateToPlayer();
@@ -38,28 +33,23 @@ void Enemy::Update()
 	isCollisionWith(mGameState->player);
 }
 
-void Enemy::Render()
-{
-	SDL_RenderTextureRotated(mGameState->game->getRenderer(), mTexture, nullptr, &mTexRect, mAngle, NULL, SDL_FLIP_NONE);
-	//Debug hitbox
-	SDL_SetRenderDrawColor(mGameState->game->getRenderer(), 255, 0, 0, 255);
-	SDL_RenderRect(mGameState->game->getRenderer(), &mHitboxRect);
-	//debug angle
-	SDL_SetRenderDrawColor(mGameState->game->getRenderer(), 0, 0, 255, 255);
-	SDL_RenderLine(mGameState->game->getRenderer(), mTexRect.x + mTexRect.w / 2, mTexRect.y + mTexRect.h / 2, mTexRect.x + mTexRect.w / 2 + 50 * SDL_cos(mAngle * SDL_PI_D / 180), mTexRect.y + mTexRect.h / 2 + 50 * SDL_sin(mAngle * SDL_PI_D / 180));
-}
-
 Uint32 Enemy::Spawn(void* pGameState, SDL_TimerID id, Uint32 interval)
 {
 	GameState* gameState = (GameState*)pGameState;
-	gameState->enemies->push_back(Enemy(gameState));
+	gameState->enemies->push_back(new Enemy(gameState));
 	return ENEMY_SPAWN_INTERVAL;
 }
 
 SDL_Point Enemy::getRandSpawnPos()
 {
-	enum ScreenSide { TOP, RIGHT, BOTTOM, LEFT };
-	SDL_Point spawnPos;
+	enum ScreenSide 
+	{ 
+		TOP, 
+		RIGHT, 
+		BOTTOM, 
+		LEFT 
+	};
+	SDL_Point spawnPos = { 0, 0 };
 	//random spawn position
 	ScreenSide side = (ScreenSide)(SDL_rand(4));
 

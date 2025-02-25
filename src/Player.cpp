@@ -21,30 +21,14 @@ Player::Player(GameState* gameState)
 	mAngle = 0;
 }
 
-Player::~Player()
-{
-	SDL_DestroyTexture(mTexture);
-}
-
 void Player::Update()
 {
 	rotateToMouse();
 }
 
-void Player::Render()
-{
-	SDL_RenderTextureRotated(mGameState->game->getRenderer(), mTexture, nullptr, &mTexRect, mAngle, NULL, SDL_FLIP_NONE);
-	//Debug hitbox
-	SDL_SetRenderDrawColor(mGameState->game->getRenderer(), 255, 0, 0, 255);
-	SDL_RenderRect(mGameState->game->getRenderer(), &mHitboxRect);
-	//debug angle
-	SDL_SetRenderDrawColor(mGameState->game->getRenderer(), 0, 0, 255, 255);
-	SDL_RenderLine(mGameState->game->getRenderer(), mTexRect.x + mTexRect.w / 2, mTexRect.y + mTexRect.h / 2, mTexRect.x + mTexRect.w / 2 + 50 * SDL_cos(mAngle * SDL_PI_D / 180), mTexRect.y + mTexRect.h / 2 + 50 * SDL_sin(mAngle * SDL_PI_D / 180));
-}
-
 void Player::shoot()
 {
-	mGameState->bullets->push_back(Bullet(mGameState));
+	mGameState->bullets->push_back(new Bullet(mGameState));
 }
 
 void Player::onCollision(EntityType type) //only trigger with enemy
@@ -56,7 +40,6 @@ void Player::onCollision(EntityType type) //only trigger with enemy
 void Player::rotateToMouse()
 {
 	// tan(a) = doi / ke
-	SDL_Log("mouse: %d %d \n screen: %d %d\n", mGameState->mouseX, mGameState->mouseY, mGameState->screenW, mGameState->screenH);
 	mAngleRad = SDL_atan2(mGameState->mouseY - mGameState->screenH / 2, mGameState->mouseX - mGameState->screenW / 2); //radian
 	mAngle = (int)(mAngleRad * 180 / SDL_PI_D + 360) % 360; //convert to degree 
 }

@@ -120,10 +120,10 @@ void Game::UpdateGame()
 	{
 		LinkedList<Bullet>::Node* next = bulletNode->next;
 		
-		if (!bulletNode->data.isAlive())
+		if (!bulletNode->data->isAlive())
 			mGameState.bullets->erase(bulletNode);
 		else
-			bulletNode->data.Update();
+			bulletNode->data->Update();
 
 		bulletNode = next;
 	}
@@ -134,10 +134,10 @@ void Game::UpdateGame()
 	{
 		LinkedList<Enemy>::Node* next = enemyHead->next;
 		
-		if (!enemyHead->data.isAlive())
+		if (!enemyHead->data->isAlive())
 			mGameState.enemies->erase(enemyHead);
 		else
-			enemyHead->data.Update();
+			enemyHead->data->Update();
 		
 		enemyHead = next;
 	}
@@ -160,14 +160,14 @@ void Game::RenderScreen()
 	LinkedList<Bullet>::Node* bulletNode = mGameState.bullets->head();
 	while (bulletNode)
 	{
-		bulletNode->data.Render();
+		bulletNode->data->Render();
 		bulletNode = bulletNode->next;
 	}
 
 	LinkedList<Enemy>::Node* enemyNode = mGameState.enemies->head();
 	while (enemyNode)
 	{
-		enemyNode->data.Render();
+		enemyNode->data->Render();
 		enemyNode = enemyNode->next;
 	}
 

@@ -19,6 +19,7 @@ public:
 
 	SDL_Window* getWindow() const { return mWindow; }
 	SDL_Renderer* getRenderer() const { return mRenderer; }
+	int getScore() const { return mGameState.score; }
 
 	bool isUserWantExit() const { return mGameState.isUserExit; }
 	void userExit() { mGameState.isUserExit = true; }
@@ -32,8 +33,11 @@ private:
 	GameState mGameState;
 	SDL_TimerID mEnemySpawnTimer;
 	Mix_Chunk* mBgMusic;
+	SDL_Texture* mBgTexture;
 	ScoreText* mScoreText;
 
 	const SDL_Color mBgColor = { 123, 201, 24 };
+	const SDL_FRect mBgRenderRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	const char* mBgTexturePath = "assets/image/bg.png";
 	const char* mBgMusicPath = "assets/sound/bg_music.wav";
 };

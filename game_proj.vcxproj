@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\Bullet.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Player.cpp" />

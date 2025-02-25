@@ -9,9 +9,7 @@
 class Enemy : public Entity {
 public:
 	Enemy(GameState* gameState);
-	~Enemy();
 	void Update();	
-	void Render();
 
 	static Uint32 Spawn(void* pGameState, SDL_TimerID id, Uint32 interval); // SDL_AddTimer callback need void*
 
@@ -24,5 +22,5 @@ private:
 	const char* mEnemyTexturePath = "assets/image/enemy.png";
 	const float mTexSize = 100.0;
 	const float mHitboxSize = 75.0;
-	const float mSpeed = 2.5;
+	float mSpeed = 2.5;
 };

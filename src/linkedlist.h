@@ -8,8 +8,8 @@ class LinkedList
 public:
 	struct Node
 	{
-		Node(T data) : data(data), next(nullptr) {}
-		T data;
+		Node(T* data) : data(data), next(nullptr) {}
+		T* data;
 		Node* next;
 	};
 
@@ -24,7 +24,7 @@ public:
 			temp = next;
 		}
 	}
-	void push_back(T data)
+	void push_back(T* data)
 	{
 		Node* newNode = new Node(data);
 		if (!mHead)
@@ -43,6 +43,7 @@ public:
 		if (node == mHead)
 		{
 			mHead = mHead->next;
+			delete node->data;
 			delete node;
 		}
 		else
@@ -53,6 +54,7 @@ public:
 				temp = temp->next;
 			}
 			temp->next = node->next;
+			delete node->data;
 			delete node;
 		}
 		mSize--;

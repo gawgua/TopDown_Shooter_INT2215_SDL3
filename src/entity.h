@@ -17,7 +17,7 @@ class Entity
 {
 public:
 	Entity() {};
-	~Entity() {};
+	~Entity();
 
 	EntityType getType() { return mType; }
 	bool isAlive() { return mIsAlive; }
@@ -36,7 +36,7 @@ public:
 		}
 	}
 
-	virtual void Render() = 0;
+	void Render();
 	virtual void Update() = 0;
 	virtual void onCollision(EntityType type) = 0;
 protected:

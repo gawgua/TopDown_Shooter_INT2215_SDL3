@@ -9,8 +9,6 @@
 class Bullet : public Entity {
 public:
 	Bullet(GameState* gameState);
-	~Bullet();
-	void Render();
 	void Update();
 
 	void onCollision(EntityType type);

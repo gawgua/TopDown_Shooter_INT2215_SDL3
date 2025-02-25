@@ -9,8 +9,6 @@
 class Player : public Entity {
 public:
 	Player(GameState* gameState);
-	~Player();
-	void Render();
 	void Update();
 
 	void onCollision(EntityType type);
