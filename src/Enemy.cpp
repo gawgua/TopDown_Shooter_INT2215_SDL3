@@ -57,7 +57,7 @@ SDL_Point Enemy::getRandSpawnPos()
 	{
 	case TOP:
 		spawnPos.x = SDL_rand(SCREEN_WIDTH);
-		spawnPos.y = 0;
+		spawnPos.y = -100;
 		break;
 	case RIGHT:
 		spawnPos.x = SCREEN_WIDTH;
@@ -68,7 +68,7 @@ SDL_Point Enemy::getRandSpawnPos()
 		spawnPos.y = SCREEN_HEIGHT;
 		break;
 	case LEFT:
-		spawnPos.x = 0;
+		spawnPos.x = -100;
 		spawnPos.y = SDL_rand(SCREEN_HEIGHT);
 		break;
 	}
