@@ -2,11 +2,15 @@
 
 Game::Game()
 {
-	mWindow = SDL_CreateWindow(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_MAXIMIZED);
+	mWindow = SDL_CreateWindow(TITLE, NULL, NULL, SDL_WINDOW_FULLSCREEN);
 	mRenderer = SDL_CreateRenderer(mWindow, NULL);
 	mBgMusic = Mix_LoadWAV(mBgMusicPath);
+	mBgTexture = IMG_LoadTexture(mRenderer, mBgTexturePath);
 	Mix_VolumeChunk(mBgMusic, BACKGROUND_MUSIC_VOL);
-	mGameState = { this, nullptr, nullptr, nullptr, 0, 0, 0, false, false};
+	int screenW, screenH;
+	SDL_SetRenderLogicalPresentation(mRenderer, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
+	SDL_GetWindowSize(mWindow, &screenW, &screenH);
+	mGameState = { this, nullptr, nullptr, nullptr, screenW, screenH, 0, 0, 0, false, false};
 	mScoreText = nullptr;
 }
 
@@ -33,11 +37,6 @@ bool Game::Init()
 		return false;
 	}
 
-	if (Mix_Init(MIX_INIT_WAVPACK) != MIX_INIT_WAVPACK)
-	{
-		SDL_Log("Failed to initialize SDL_mixer: %s", SDL_GetError());
-		return false;
-	}
 	Mix_OpenAudio(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr);
 
 	return true;
@@ -148,6 +147,9 @@ void Game::RenderScreen()
 {
 	SDL_SetRenderDrawColor(mRenderer, mBgColor.r, mBgColor.g, mBgColor.b, mBgColor.a);
 	SDL_RenderClear(mRenderer);
+
+	// background
+	SDL_RenderTexture(mRenderer, mBgTexture, nullptr, &mBgRenderRect);
 
 	//score text
 	mScoreText->Render();
