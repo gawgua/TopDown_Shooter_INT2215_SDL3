@@ -2,7 +2,8 @@
 
 Game::Game()
 {
-	mWindow = SDL_CreateWindow(TITLE, NULL, NULL, SDL_WINDOW_FULLSCREEN);
+	//mWindow = SDL_CreateWindow(TITLE, NULL, NULL, SDL_WINDOW_FULLSCREEN);
+	mWindow = SDL_CreateWindow(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_MAXIMIZED);
 	mRenderer = SDL_CreateRenderer(mWindow, NULL);
 	mBgMusic = Mix_LoadWAV(mBgMusicPath);
 	mBgTexture = IMG_LoadTexture(mRenderer, mBgTexturePath);
@@ -11,7 +12,7 @@ Game::Game()
 	SDL_SetRenderLogicalPresentation(mRenderer, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 	SDL_GetWindowSize(mWindow, &screenW, &screenH);
 	mGameState = { this, nullptr, nullptr, nullptr, screenW, screenH, 0, 0, 0, false, false};
-	mScoreText = nullptr;
+	mUI = nullptr;
 }
 
 Game::~Game()
@@ -60,7 +61,7 @@ void Game::Run()
 	mGameState.player = new Player(&mGameState);
 	mGameState.enemies = new LinkedList<Enemy>();
 	mGameState.bullets = new LinkedList<Bullet>();
-	mScoreText = new ScoreText(&mGameState, mRenderer);
+	mUI = new UI(&mGameState);
 	Mix_FadeInChannel(-1, mBgMusic, -1, 2000); //to not suddenly start the music
 	mEnemySpawnTimer = SDL_AddTimer(ENEMY_SPAWN_INTERVAL, Enemy::Spawn, &mGameState); //spawn enemy at interval
 
@@ -74,12 +75,13 @@ void Game::Run()
 	}
 
 	//clear game before next game
+	SDL_RemoveTimer(mEnemySpawnTimer);
 	Mix_FadeOutChannel(-1, 500);
 	//clear all array of player, bullet, enemy
 	delete mGameState.enemies;
 	delete mGameState.bullets;
 	delete mGameState.player;
-	delete mScoreText;
+	delete mUI;
 }
 
 void Game::ProcessInput()
@@ -110,9 +112,6 @@ void Game::UpdateGame()
 	mGameState.player->Update();
 	if (!mGameState.player->isAlive())
 		mGameState.isGameOver = true;
-
-	if (mGameState.isGameOver)
-		SDL_RemoveTimer(mEnemySpawnTimer);
 
 	//update bullet
 	LinkedList<Bullet>::Node* bulletNode = mGameState.bullets->head();
@@ -151,9 +150,6 @@ void Game::RenderScreen()
 	// background
 	SDL_RenderTexture(mRenderer, mBgTexture, nullptr, &mBgRenderRect);
 
-	//score text
-	mScoreText->Render();
-
 	//render player, bullet, enemy
 	mGameState.player->Render();
 
@@ -170,6 +166,9 @@ void Game::RenderScreen()
 		enemyNode->data->Render();
 		enemyNode = enemyNode->next;
 	}
+
+	//score text
+	mUI->Render();
 
 	//to screen
 	SDL_RenderPresent(mRenderer);

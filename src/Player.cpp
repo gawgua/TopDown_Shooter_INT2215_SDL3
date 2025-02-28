@@ -19,11 +19,15 @@ Player::Player(GameState* gameState)
 	float hitboxY = mTexRect.y + (mTexRect.h - mHitboxSize) / 2.0;
 	mHitboxRect = { hitboxX, hitboxY, mHitboxSize, mHitboxSize };
 	mAngle = 0;
+	mHp = 5;
 }
 
 void Player::Update()
 {
 	rotateToMouse();
+
+	if (mHp <= 0)
+		mIsAlive = false;
 }
 
 void Player::shoot()
@@ -34,7 +38,7 @@ void Player::shoot()
 void Player::onCollision(EntityType type) //only trigger with enemy
 {
 	if (type == EntityType::ENEMY)
-		mIsAlive = false;
+		mHp--;
 }
 
 void Player::rotateToMouse()

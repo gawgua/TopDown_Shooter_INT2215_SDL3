@@ -94,6 +94,10 @@ void Enemy::onCollision(EntityType type) //only trigger with bullet
 		mIsAlive = false;
 		mGameState->score++;
 	}
+	if (type == EntityType::PLAYER)
+	{
+		mIsAlive = false;
+	}
 }
 
 void Enemy::rotateToPlayer()

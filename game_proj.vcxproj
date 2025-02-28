@@ -26,6 +26,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\ScoreText.cpp" />
+    <ClCompile Include="src\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\bullet.h" />
@@ -37,6 +38,7 @@
     <ClInclude Include="src\linkedlist.h" />
     <ClInclude Include="src\player.h" />
     <ClInclude Include="src\scoretext.h" />
+    <ClInclude Include="src\ui.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

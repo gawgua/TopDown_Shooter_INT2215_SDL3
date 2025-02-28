@@ -3,11 +3,11 @@
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3_mixer/SDL_mixer.h>
-#include <time.h>
 
 #include "constant.h"
 #include "gamestate.h"
-#include "scoretext.h"
+class UI;
+#include "ui.h"
 
 class Game {
 public:
@@ -34,7 +34,7 @@ private:
 	SDL_TimerID mEnemySpawnTimer;
 	Mix_Chunk* mBgMusic;
 	SDL_Texture* mBgTexture;
-	ScoreText* mScoreText;
+	UI* mUI;
 
 	const SDL_Color mBgColor = { 123, 201, 24 };
 	const SDL_FRect mBgRenderRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };

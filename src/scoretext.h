@@ -8,17 +8,17 @@ struct GameState;
 class ScoreText
 {
 public:
-	ScoreText(GameState* gameState, SDL_Renderer* renderer);
+	ScoreText(GameState* gameState);
 	~ScoreText();
 	void Render();
 private:
 	GameState* mGameState;
-	SDL_Renderer* mRenderer;
 	TTF_Font* mFont;
 
 	const char* mFontPath = "assets/font/font.ttf";
-	const int mFontSize = 70;
+	const int mFontSize = 40;
 	const SDL_Color mFontColor = { 255, 255, 255 };
+	const SDL_FPoint mStartPoint = { 25, 35 };
 };
 
 #include "gamestate.h"
