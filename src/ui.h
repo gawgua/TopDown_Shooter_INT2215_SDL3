@@ -18,10 +18,12 @@ private:
 
 	GameState* mGameState;
 	SDL_Texture* mUITexture;
+	SDL_Texture* mPauseTexture;
 	SDL_Texture* mHpTexture[6];
 	ScoreText* mScoreText;
 
 	const char* mUITexturePath = "assets/image/ui.png";
+	const char* mPauseTexturePath = "assets/image/paused.png";
 
 	const char* mHp0TexturePath = "assets/image/hp0.png";
 	const char* mHp1TexturePath = "assets/image/hp1.png";

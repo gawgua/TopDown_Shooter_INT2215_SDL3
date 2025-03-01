@@ -5,6 +5,7 @@ UI::UI(GameState* gameState)
 	mGameState = gameState;
 	mScoreText = new ScoreText(gameState);
 	mUITexture = IMG_LoadTexture(mGameState->game->getRenderer(), mUITexturePath);
+	mPauseTexture = IMG_LoadTexture(mGameState->game->getRenderer(), mPauseTexturePath);
 	mHpTexture[0] = IMG_LoadTexture(mGameState->game->getRenderer(), mHp0TexturePath);
 	mHpTexture[1] = IMG_LoadTexture(mGameState->game->getRenderer(), mHp1TexturePath);
 	mHpTexture[2] = IMG_LoadTexture(mGameState->game->getRenderer(), mHp2TexturePath);
@@ -35,6 +36,7 @@ void UI::Render()
 	{
 		SDL_SetRenderDrawColor(mGameState->game->getRenderer(), 0, 0, 0, 190);
 		SDL_RenderFillRect(mGameState->game->getRenderer(), NULL);
+		SDL_RenderTexture(mGameState->game->getRenderer(), mPauseTexture, NULL, NULL);
 	}
 }
 
