@@ -16,9 +16,11 @@ struct GameState {
 
 	int screenW, screenH;
 	int mouseX, mouseY;
-	unsigned int score;
+	uint32_t score;
 	bool isGameOver;
 	bool isUserExit;
+	bool isPaused;
+	uint64_t prevTick;
 };
 
 #include "game.h"

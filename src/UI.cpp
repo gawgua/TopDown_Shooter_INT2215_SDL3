@@ -30,6 +30,12 @@ void UI::Render()
 	SDL_RenderTexture(mGameState->game->getRenderer(), mUITexture, NULL, NULL);
 	mScoreText->Render();
 	SDL_RenderTexture(mGameState->game->getRenderer(), getTextureFromHP(), NULL, &mHpTexRect);
+
+	if (mGameState->isPaused)
+	{
+		SDL_SetRenderDrawColor(mGameState->game->getRenderer(), 0, 0, 0, 190);
+		SDL_RenderFillRect(mGameState->game->getRenderer(), NULL);
+	}
 }
 
 SDL_Texture* UI::getTextureFromHP()

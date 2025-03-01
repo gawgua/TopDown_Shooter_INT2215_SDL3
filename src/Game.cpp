@@ -5,13 +5,14 @@ Game::Game()
 	//mWindow = SDL_CreateWindow(TITLE, NULL, NULL, SDL_WINDOW_FULLSCREEN);
 	mWindow = SDL_CreateWindow(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_MAXIMIZED);
 	mRenderer = SDL_CreateRenderer(mWindow, NULL);
+	SDL_SetRenderLogicalPresentation(mRenderer, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
+	SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
 	mBgMusic = Mix_LoadWAV(mBgMusicPath);
 	mBgTexture = IMG_LoadTexture(mRenderer, mBgTexturePath);
 	Mix_VolumeChunk(mBgMusic, BACKGROUND_MUSIC_VOL);
 	int screenW, screenH;
-	SDL_SetRenderLogicalPresentation(mRenderer, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 	SDL_GetWindowSize(mWindow, &screenW, &screenH);
-	mGameState = { this, nullptr, nullptr, nullptr, screenW, screenH, 0, 0, 0, false, false};
+	mGameState = { this, nullptr, nullptr, nullptr, screenW, screenH, 0, 0, 0, false, false, false, SDL_GetTicks()};
 	mUI = nullptr;
 }
 
@@ -63,19 +64,18 @@ void Game::Run()
 	mGameState.bullets = new LinkedList<Bullet>();
 	mUI = new UI(&mGameState);
 	Mix_FadeInChannel(-1, mBgMusic, -1, 2000); //to not suddenly start the music
-	mEnemySpawnTimer = SDL_AddTimer(ENEMY_SPAWN_INTERVAL, Enemy::Spawn, &mGameState); //spawn enemy at interval
 
 	while (!mGameState.isGameOver && !mGameState.isUserExit)
 	{
 		ProcessInput();
-		UpdateGame();
+		if (!mGameState.isPaused)
+			UpdateGame();
 		RenderScreen();
 
 		SDL_Delay(1000 / TARGET_FPS);
 	}
 
 	//clear game before next game
-	SDL_RemoveTimer(mEnemySpawnTimer);
 	Mix_FadeOutChannel(-1, 500);
 	//clear all array of player, bullet, enemy
 	delete mGameState.enemies;
@@ -102,6 +102,10 @@ void Game::ProcessInput()
 			mGameState.mouseX = event.motion.x;
 			mGameState.mouseY = event.motion.y;
 			break;
+		case SDL_EVENT_KEY_DOWN:
+			if (event.key.key == SDLK_ESCAPE)
+				mGameState.isPaused = !mGameState.isPaused;
+			break;
 		}
 	}
 }
@@ -109,6 +113,12 @@ void Game::ProcessInput()
 //idk what to do here
 void Game::UpdateGame()
 {
+	if (SDL_GetTicks() - mGameState.prevTick > ENEMY_SPAWN_INTERVAL)
+	{
+		mGameState.enemies->push_back(new Enemy(&mGameState));
+		mGameState.prevTick = SDL_GetTicks();
+	}
+
 	mGameState.player->Update();
 	if (!mGameState.player->isAlive())
 		mGameState.isGameOver = true;
