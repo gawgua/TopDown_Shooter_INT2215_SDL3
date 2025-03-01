@@ -34,13 +34,6 @@ void Enemy::Update()
 	isCollisionWith(mGameState->player);
 }
 
-Uint32 Enemy::Spawn(void* pGameState, SDL_TimerID id, Uint32 interval)
-{
-	GameState* gameState = (GameState*)pGameState;
-	gameState->enemies->push_back(new Enemy(gameState));
-	return ENEMY_SPAWN_INTERVAL;
-}
-
 SDL_Point Enemy::getRandSpawnPos()
 {
 	enum ScreenSide 

@@ -11,8 +11,6 @@ public:
 	Enemy(GameState* gameState);
 	void Update();	
 
-	static Uint32 Spawn(void* pGameState, SDL_TimerID id, Uint32 interval); // SDL_AddTimer callback need void*
-
 	void onCollision(EntityType type);
 private:
 	static SDL_Point getRandSpawnPos();
