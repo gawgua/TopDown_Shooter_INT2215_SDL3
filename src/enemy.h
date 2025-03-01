@@ -18,6 +18,7 @@ private:
 	static SDL_Point getRandSpawnPos();
 	void move();
 	void rotateToPlayer();
+	float speedBasedOnScore();
 
 	const char* mEnemyTexturePath = "assets/image/enemy.png";
 	const float mTexSize = 100.0;

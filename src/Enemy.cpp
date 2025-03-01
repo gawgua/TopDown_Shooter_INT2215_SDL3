@@ -22,6 +22,7 @@ Enemy::Enemy(GameState* gameState)
 	mAngle = 0;
 	mAngleRad = 0.0;
 	mIsAlive = true;
+	mSpeed = speedBasedOnScore();
 }
 
 void Enemy::Update()
@@ -107,4 +108,11 @@ void Enemy::rotateToPlayer()
 	// tan(a) = doi / ke
 	mAngleRad = SDL_atan2(playerHitbox.y - enemyHitbox.y, playerHitbox.x - enemyHitbox.x); //radian
 	mAngle = (int)(mAngleRad * 180 / SDL_PI_D + 360) % 360; //convert to degree
+}
+
+float Enemy::speedBasedOnScore()
+{
+	//+0.5 speed per 10 score
+	int ratio = mGameState->score / 10;
+	return mSpeed + ratio * 0.5;
 }
