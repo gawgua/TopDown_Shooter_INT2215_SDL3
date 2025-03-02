@@ -17,7 +17,7 @@ UI::UI(GameState* gameState)
 UI::~UI()
 {
 	SDL_DestroyTexture(mUITexture);
-
+	SDL_DestroyTexture(mPauseTexture);
 	for (int i = 0; i < 6; i++)
 	{
 		SDL_DestroyTexture(mHpTexture[i]);
