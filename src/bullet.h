@@ -16,7 +16,7 @@ private:
 	void move();
 
 	const char* mBulletTexturePath = "assets/image/bullet.png";
-	const float mTexSize = 30.0;
-	const float mHitboxSize = 25.0;
+	const float mTexSize = 40.0;
+	const float mHitboxSize = 35.0;
 	const float mSpeed = 8.0;
 };
