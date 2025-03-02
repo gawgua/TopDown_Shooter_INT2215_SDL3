@@ -107,5 +107,6 @@ float Enemy::speedBasedOnScore()
 {
 	//+0.5 speed per 10 score
 	int ratio = mGameState->score / 10;
-	return mSpeed + ratio * 0.5;
+	float random = (SDL_rand(9) - 4) / 10.0; // random from -0.4 to 0.4
+	return mSpeed + ratio * 0.5 + random;
 }
