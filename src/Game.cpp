@@ -2,8 +2,8 @@
 
 Game::Game()
 {
-	//mWindow = SDL_CreateWindow(TITLE, NULL, NULL, SDL_WINDOW_FULLSCREEN);
-	mWindow = SDL_CreateWindow(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_MAXIMIZED);
+	mWindow = SDL_CreateWindow(TITLE, NULL, NULL, SDL_WINDOW_FULLSCREEN);
+	//mWindow = SDL_CreateWindow(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_MAXIMIZED);
 	mRenderer = SDL_CreateRenderer(mWindow, NULL);
 	SDL_SetRenderLogicalPresentation(mRenderer, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 	SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
@@ -63,7 +63,7 @@ void Game::Run()
 	mGameState.enemies = new LinkedList<Enemy>();
 	mGameState.bullets = new LinkedList<Bullet>();
 	mUI = new UI(&mGameState);
-	Mix_FadeInChannel(-1, mBgMusic, -1, 2000); //to not suddenly start the music
+	Mix_FadeInChannel(-1, mBgMusic, -1, 1500); //to not suddenly start the music
 
 	while (!mGameState.isGameOver && !mGameState.isUserExit)
 	{
@@ -157,9 +157,6 @@ void Game::RenderScreen()
 	SDL_SetRenderDrawColor(mRenderer, mBgColor.r, mBgColor.g, mBgColor.b, mBgColor.a);
 	SDL_RenderClear(mRenderer);
 
-	// background
-	SDL_RenderTexture(mRenderer, mBgTexture, nullptr, &mBgRenderRect);
-
 	//render player, bullet, enemy
 	mGameState.player->Render();
 
@@ -176,6 +173,9 @@ void Game::RenderScreen()
 		enemyNode->data->Render();
 		enemyNode = enemyNode->next;
 	}
+
+	// background
+	SDL_RenderTexture(mRenderer, mBgTexture, nullptr, &mBgRenderRect);
 
 	//score text
 	mUI->Render();

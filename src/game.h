@@ -20,7 +20,7 @@ public:
 	SDL_Window* getWindow() const { return mWindow; }
 	SDL_Renderer* getRenderer() const { return mRenderer; }
 	int getScore() const { return mGameState.score; }
-
+	GameState* getGameState() { return &mGameState; }
 	bool isUserWantExit() const { return mGameState.isUserExit; }
 	void userExit() { mGameState.isUserExit = true; }
 private:
@@ -31,7 +31,6 @@ private:
 	SDL_Window* mWindow;
 	SDL_Renderer* mRenderer;
 	GameState mGameState;
-	SDL_TimerID mEnemySpawnTimer;
 	Mix_Chunk* mBgMusic;
 	SDL_Texture* mBgTexture;
 	UI* mUI;

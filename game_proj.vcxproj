@@ -20,22 +20,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bullet.cpp" />
+    <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\GameOver.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MainMenu.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\ScoreText.cpp" />
     <ClCompile Include="src\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\bullet.h" />
+    <ClInclude Include="src\button.h" />
     <ClInclude Include="src\constant.h" />
     <ClInclude Include="src\enemy.h" />
     <ClInclude Include="src\entity.h" />
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\gameover.h" />
     <ClInclude Include="src\gamestate.h" />
     <ClInclude Include="src\linkedlist.h" />
+    <ClInclude Include="src\mainmenu.h" />
     <ClInclude Include="src\player.h" />
     <ClInclude Include="src\scoretext.h" />
     <ClInclude Include="src\ui.h" />
