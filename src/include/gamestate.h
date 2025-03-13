@@ -14,7 +14,6 @@ struct GameState {
 	LinkedList<Enemy>* enemies;
 	LinkedList<Bullet>* bullets;
 
-	int screenW, screenH;
 	int mouseX, mouseY;
 	Uint32 score;
 	bool isGameOver;

@@ -43,7 +43,10 @@ void Player::onCollision(EntityType type) //only trigger with enemy
 
 void Player::rotateToMouse()
 {
+	//get mouse position
+	float x, y;
+	SDL_RenderCoordinatesFromWindow(mGameState->game->getRenderer(), mGameState->mouseX, mGameState->mouseY, &x, &y);
 	// tan(a) = doi / ke
-	mAngleRad = SDL_atan2(mGameState->mouseY - mGameState->screenH / 2, mGameState->mouseX - mGameState->screenW / 2); //radian
+	mAngleRad = SDL_atan2(y - SCREEN_HEIGHT / 2, x - SCREEN_WIDTH / 2); //radian
 	mAngle = (int)(mAngleRad * 180 / SDL_PI_D + 360) % 360; //convert to degree 
 }

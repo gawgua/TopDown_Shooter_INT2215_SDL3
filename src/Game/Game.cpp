@@ -10,9 +10,7 @@ Game::Game()
 	mBgMusic = Mix_LoadWAV(mBgMusicPath);
 	mBgTexture = IMG_LoadTexture(mRenderer, mBgTexturePath);
 	Mix_VolumeChunk(mBgMusic, BACKGROUND_MUSIC_VOL);
-	int screenW, screenH;
-	SDL_GetWindowSize(mWindow, &screenW, &screenH);
-	mGameState = { this, nullptr, nullptr, nullptr, screenW, screenH, 0, 0, 0, false, false, false, 0};
+	mGameState = { this, nullptr, nullptr, nullptr, 0, 0, 0, false, false, false, 0};
 	mUI = nullptr;
 }
 
