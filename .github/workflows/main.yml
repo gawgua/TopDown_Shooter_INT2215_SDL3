@@ -18,12 +18,12 @@ jobs:
                 arch: ${{env.CMAKE_ARCH}}
             - name: CMake generate
               run: |
-                cmake -S . -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Release -G ${{env.CMAKE_GENERATOR}} -A ${{env.CMAKE_ARCH}}
+                cmake -S . -B ${{github.workspace}}/build -G ${{env.CMAKE_GENERATOR}}
             - name: CMake build
               run: |
                 cmake --build ${{github.workspace}}/build
             - name: Upload artifact
               uses: actions/upload-artifact@v4
               with:
-                name: release
-                path: build/src/Release
+                name: topdown
+                path: ${{github.workspace}}/build/src/Debug/
