@@ -50,4 +50,4 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                 name: topdown-linux-x64-Release
-                path: ${{github.workspace}}/build/src/Release/
+                path: ${{github.workspace}}/build/src/TopDownShooter
