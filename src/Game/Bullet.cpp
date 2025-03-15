@@ -2,6 +2,7 @@
 
 Bullet::Bullet(GameState* gameState)
 {
+
 	mType = EntityType::BULLET;
 
 	mGameState = gameState;
@@ -19,6 +20,10 @@ Bullet::Bullet(GameState* gameState)
 	mHitboxRect = { hitboxX, hitboxY, mHitboxSize, mHitboxSize };
 	mAngle = mGameState->player->getAngle();
 	mAngleRad = mGameState->player->getRadianAngle();
+
+#ifdef TOPDOWN_DEBUG
+	SDL_Log("Bullet created at: %f, %f", mTexRect.x, mTexRect.y);
+#endif // TOPDOWN_DEBUG
 }
 
 void Bullet::Update()
@@ -51,7 +56,7 @@ void Bullet::move()
 
 void Bullet::onCollision(EntityType type)
 {
-		if (type == EntityType::ENEMY)
+	if (type == EntityType::ENEMY)
 	{
 		mIsAlive = false;
 	}

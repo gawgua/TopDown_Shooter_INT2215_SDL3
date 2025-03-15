@@ -10,6 +10,10 @@ set(SDLIMAGE_BUILD_SHARED_LIBS OFF)
 set(SDLTTF_BUILD_SHARED_LIBS OFF)
 set(SDLMIXER_BUILD_SHARED_LIBS OFF)
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	add_compile_definitions(TOPDOWN_DEBUG)
+endif()
+
 add_subdirectory(deps/SDL EXCLUDE_FROM_ALL)
 add_subdirectory(deps/SDL_image EXCLUDE_FROM_ALL)
 add_subdirectory(deps/SDL_ttf EXCLUDE_FROM_ALL)

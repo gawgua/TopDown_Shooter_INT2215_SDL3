@@ -23,6 +23,10 @@ Enemy::Enemy(GameState* gameState)
 	mAngleRad = 0.0;
 	mIsAlive = true;
 	mSpeed = speedBasedOnScore();
+
+#ifdef TOPDOWN_DEBUG
+	SDL_Log("Enemy created at: %f, %f, speed: %f", mTexRect.x, mTexRect.y, mSpeed);
+#endif // TOPDOWN_DEBUG
 }
 
 void Enemy::Update()

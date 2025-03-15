@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
+#include <string>
 
 #include "constant.h"
 struct GameState;
@@ -19,7 +20,8 @@ public:
 	Entity() {};
 	~Entity();
 
-	virtual EntityType getType() { return mType; }
+	EntityType getType() { return mType; }
+	static std::string getTypeString(EntityType type);
 	bool isAlive() { return mIsAlive; }
 	int getHp() { return mHp; }
 	SDL_FPoint getCenter() { return { mTexRect.x + mTexRect.w / 2, mTexRect.y + mTexRect.h / 2 }; }
