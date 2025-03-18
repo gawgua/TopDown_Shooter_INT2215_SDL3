@@ -14,15 +14,17 @@ jobs:
                 arch: x64
             - name: CMake generate
               run: |
-                cmake -S . -B ${{github.workspace}}/build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release
+                cmake -S ${{github.workspace}} --preset x64-release
             - name: CMake build
               run: |
-                cmake --build ${{github.workspace}}/build --config Release
+                cmake --build ${{github.workspace}}/out/build/x64-release --config Release
             - name: Upload artifact
               uses: actions/upload-artifact@v4
               with:
-                name: topdown-windows-x64-Release
-                path: ${{github.workspace}}/build/src/Release/
+                name: topdown-windows-x64-release
+                path: |
+                    ${{github.workspace}}/out/build/x64-release/src/Release/
+                    ${{github.workspace}}/assets/
                 
     build-linux:
         runs-on: ubuntu-latest
@@ -42,12 +44,14 @@ jobs:
                 libpipewire-0.3-dev libwayland-dev libdecor-0-dev liburing-dev libfreetype6-dev
             - name: CMake generate
               run: |
-                cmake -S . -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Release -DSDLMIXER_MIDI_FLUIDSYNTH=OFF
+                cmake -S ${{github.workspace}} --preset linux-release
             - name: CMake build
               run: |
-                cmake --build ${{github.workspace}}/build --config Release
+                cmake --build ${{github.workspace}}/out/build/linux-release
             - name: Upload artifact
               uses: actions/upload-artifact@v4
               with:
-                name: topdown-linux-x64-Release
-                path: ${{github.workspace}}/build/src/TopDownShooter
+                name: topdown-linux-x64-release	
+                path: |
+                    ${{github.workspace}}/out/build/linux-release/src/TopDownShooter
+                    ${{github.workspace}}/assets/

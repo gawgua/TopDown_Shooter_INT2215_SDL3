@@ -1,9 +1,12 @@
 cmake_minimum_required(VERSION 3.10)
 project(TopDownShooter)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 set(SDLIMAGE_AVIF OFF) # Disable AVIF support because of dav1d
+if (LINUX)
+	set(SDLMIXER_MIDI_FLUIDSYNTH OFF) # Disable FluidSynth because of libfluidsynth error on Linux
+endif()
 set(BUILD_SHARED_LIBS OFF) # Disable shared libraries
 set(SDL_STATIC ON)
 set(SDLIMAGE_BUILD_SHARED_LIBS OFF)
