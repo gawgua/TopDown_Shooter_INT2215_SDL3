@@ -31,7 +31,7 @@ public:
 	int getAngle() { return mAngle; }
 	void isCollisionWith(Entity* other);
 
-	void Render();
+	virtual void Render();
 	virtual void Update() = 0;
 	virtual void onCollision(EntityType type) = 0;
 protected:

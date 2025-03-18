@@ -1,5 +1,7 @@
 #include "ui.h"
 
+#include <SDL3_image/SDL_image.h>
+
 UI::UI(GameState* gameState)
 {
 	mGameState = gameState;

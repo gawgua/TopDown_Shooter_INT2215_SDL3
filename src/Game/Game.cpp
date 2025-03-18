@@ -1,17 +1,24 @@
 #include "game.h"
 
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
+
 Game::Game()
 {
+#ifdef TOPDOWN_DEBUG
+	mWindow = SDL_CreateWindow(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_MAXIMIZED);
+#else
 	mWindow = SDL_CreateWindow(TITLE, NULL, NULL, SDL_WINDOW_FULLSCREEN);
-	//mWindow = SDL_CreateWindow(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_MAXIMIZED);
+#endif // TOPDOWN_DEBUG
 	mRenderer = SDL_CreateRenderer(mWindow, NULL);
 	SDL_SetRenderLogicalPresentation(mRenderer, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 	SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
 	mBgMusic = Mix_LoadWAV(mBgMusicPath);
 	mBgTexture = IMG_LoadTexture(mRenderer, mBgTexturePath);
 	Mix_VolumeChunk(mBgMusic, BACKGROUND_MUSIC_VOL);
-	mGameState = { this, nullptr, nullptr, nullptr, 0, 0, 0, false, false, false, 0};
+	mGameState = { this, nullptr, nullptr, nullptr, 0, 0, 0.0, 0.0, 0, 0, false, false, false };
 	mUI = nullptr;
+	mMap = nullptr;
 }
 
 Game::~Game()
@@ -62,7 +69,13 @@ void Game::Run()
 	mGameState.enemies = new LinkedList<Enemy>();
 	mGameState.bullets = new LinkedList<Bullet>();
 	mUI = new UI(&mGameState);
+	mMap = new Map(&mGameState);
 	Mix_FadeInChannel(-1, mBgMusic, -1, 1500); //to not suddenly start the music
+	SDL_SetEventFilter([](void* userdata, SDL_Event* event) -> bool {
+		if (event->type == SDL_EVENT_KEY_DOWN || event->type == SDL_EVENT_KEY_UP)
+			return !event->key.repeat;
+		return true;
+	}, nullptr);
 
 	while (!mGameState.isGameOver && !mGameState.isUserExit)
 	{
@@ -90,8 +103,13 @@ void Game::Run()
 	delete mGameState.bullets;
 	delete mGameState.player;
 	delete mUI;
+	delete mMap;
 }
 
+static bool moveUp = false;
+static bool moveDown = false;
+static bool moveLeft = false;
+static bool moveRight = false;
 void Game::ProcessInput()
 {
 	SDL_Event event;
@@ -111,8 +129,32 @@ void Game::ProcessInput()
 			mGameState.mouseY = event.motion.y;
 			break;
 		case SDL_EVENT_KEY_DOWN:
-			if (event.key.key == SDLK_ESCAPE)
-				mGameState.isPaused = !mGameState.isPaused;
+		case SDL_EVENT_KEY_UP:
+			switch (event.key.key)
+			{
+			case SDLK_ESCAPE:
+#ifdef TOPDOWN_DEBUG
+				if (mGameState.isPaused)
+					SDL_Log("Game resumed");
+				else
+					SDL_Log("Game paused");
+#endif // TOPDOWN_DEBUG
+				if (event.key.down)
+					mGameState.isPaused = !mGameState.isPaused;
+				break;
+			case SDLK_W:
+				moveUp = event.key.down;
+				break;
+			case SDLK_A:
+				moveLeft = event.key.down;
+				break;
+			case SDLK_S:
+				moveDown = event.key.down;
+				break;
+			case SDLK_D:
+				moveRight = event.key.down;
+				break;
+			}
 			break;
 		}
 	}
@@ -122,8 +164,14 @@ static int enemySpawnDeltaTime = ENEMY_SPAWN_INTERVAL;
 //idk what to do here
 void Game::UpdateGame()
 {
+	//move player
+	if (moveDown) mGameState.movedY += -5;
+	if (moveUp) mGameState.movedY += 5;
+	if (moveRight) mGameState.movedX += -5;
+	if (moveLeft) mGameState.movedX += 5;
+
 	enemySpawnDeltaTime -= mGameState.delta;
-	SDL_Log("enemy: %lld, delta: %lld", enemySpawnDeltaTime, mGameState.delta);
+	//SDL_Log("enemy: %lld, delta: %lld", enemySpawnDeltaTime, mGameState.delta);
 	if (enemySpawnDeltaTime <= 0)
 	{
 		mGameState.enemies->push_back(new Enemy(&mGameState));
@@ -133,6 +181,8 @@ void Game::UpdateGame()
 	mGameState.player->Update();
 	if (!mGameState.player->isAlive())
 		mGameState.isGameOver = true;
+
+	mMap->Update();
 
 	//update bullet
 	LinkedList<Bullet>::Node* bulletNode = mGameState.bullets->head();
@@ -161,12 +211,17 @@ void Game::UpdateGame()
 		
 		enemyHead = next;
 	}
+
+	mGameState.movedX = 0.0;
+	mGameState.movedY = 0.0;
 }
 
 void Game::RenderScreen()
 {
 	SDL_SetRenderDrawColor(mRenderer, mBgColor.r, mBgColor.g, mBgColor.b, mBgColor.a);
 	SDL_RenderClear(mRenderer);
+
+	mMap->Render();
 
 	//render player, bullet, enemy
 	mGameState.player->Render();

@@ -1,13 +1,13 @@
 #pragma once
 #include <SDL3/SDL.h>
-#include <SDL3_image/SDL_image.h>
-#include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3_mixer/SDL_mixer.h>
 
 #include "constant.h"
 #include "gamestate.h"
 class UI;
 #include "ui.h"
+class Map;
+#include "map.h"
 
 class Game {
 public:
@@ -34,6 +34,7 @@ private:
 	Mix_Chunk* mBgMusic;
 	SDL_Texture* mBgTexture;
 	UI* mUI;
+	Map* mMap;
 	Uint64 mPrevTick;
 
 	const SDL_Color mBgColor = { 123, 201, 24 };

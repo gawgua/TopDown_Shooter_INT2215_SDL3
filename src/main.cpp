@@ -13,8 +13,15 @@ int main(int argc, char* argv[]) {
 	mainMenu->Run();
 	delete mainMenu;
 
+#ifdef TOPDOWN_DEBUG
+	int gameCount = 0;
+#endif // TOPDOWN_DEBUG
+
 	while (!game->isUserWantExit())
 	{
+#ifdef TOPDOWN_DEBUG
+		SDL_Log("#######    GAME ROUND %d   ########################", ++gameCount);
+#endif // TOPDOWN_DEBUG
 		game->Run();
 		//show game over screen
 		//if (button !play again) and (exit not been set be4); exit = true;

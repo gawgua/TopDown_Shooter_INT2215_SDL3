@@ -10,7 +10,7 @@ add_executable(${PROJECT_NAME} main.cpp
 	UI/UI.cpp
 	UI/MainMenu.cpp
 	UI/GameOver.cpp
-)
+ "Game/Map.cpp")
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 

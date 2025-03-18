@@ -15,11 +15,12 @@ struct GameState {
 	LinkedList<Bullet>* bullets;
 
 	int mouseX, mouseY;
+	float movedX, movedY;
+	Uint64 delta;
 	Uint32 score;
 	bool isGameOver;
 	bool isUserExit;
 	bool isPaused;
-	Uint64 delta;
 };
 
 #include "game.h"

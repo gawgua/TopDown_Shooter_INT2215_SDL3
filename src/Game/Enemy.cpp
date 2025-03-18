@@ -79,10 +79,10 @@ void Enemy::move()
 	float moveX = mSpeed * SDL_cos(mAngleRad);
 	float moveY = mSpeed * SDL_sin(mAngleRad);
 	
-	mTexRect.x += moveX;
-	mTexRect.y += moveY;
-	mHitboxRect.x += moveX;
-	mHitboxRect.y += moveY;
+	mTexRect.x += moveX + mGameState->movedX;
+	mTexRect.y += moveY + mGameState->movedY;
+	mHitboxRect.x += moveX + mGameState->movedX;
+	mHitboxRect.y += moveY + mGameState->movedY;
 }
 
 void Enemy::onCollision(EntityType type) //only trigger with bullet
