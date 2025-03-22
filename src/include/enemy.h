@@ -5,6 +5,8 @@
 #include "constant.h"
 #include "gamestate.h"
 #include "entity.h"
+class Map;
+#include "map.h"
 
 class Enemy : public Entity {
 public:
@@ -13,7 +15,7 @@ public:
 
 	void onCollision(EntityType type);
 private:
-	static SDL_Point getRandSpawnPos();
+	static SDL_Point getRandSpawnPos(Map* map);
 	void move();
 	void rotateToPlayer();
 	float speedBasedOnScore();

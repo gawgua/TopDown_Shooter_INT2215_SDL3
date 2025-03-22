@@ -9,15 +9,17 @@ class Map {
 public:
 	Map() {};
 	Map(GameState* gameState);
-	~Map() {};
+	~Map();
 
 	void Update();
 	void Render();
+
+	bool isInMap(SDL_FRect hitbox);
+	Uint8 getAllowDirection(SDL_FRect hitbox);
 private:
 	GameState* mGameState;
 	SDL_Texture* mBgTexture;
-	SDL_FRect mBgRenderMask;
+	SDL_FRect mBgTexRect;
 
 	const char* mBgTexturePath = "assets/image/map.png";
-	const SDL_FRect mBgTexRect = { 0, 0, 900, 900 };
 };

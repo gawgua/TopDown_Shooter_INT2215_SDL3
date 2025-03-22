@@ -20,6 +20,7 @@ public:
 	SDL_Window* getWindow() const { return mWindow; }
 	SDL_Renderer* getRenderer() const { return mRenderer; }
 	int getScore() const { return mGameState.score; }
+	Map* getMap() { return mMap; }
 	GameState* getGameState() { return &mGameState; }
 	bool isUserWantExit() const { return mGameState.isUserExit; }
 	void userExit() { mGameState.isUserExit = true; }

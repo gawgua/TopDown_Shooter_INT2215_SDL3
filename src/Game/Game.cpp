@@ -165,10 +165,14 @@ static int enemySpawnDeltaTime = ENEMY_SPAWN_INTERVAL;
 void Game::UpdateGame()
 {
 	//move player
-	if (moveDown) mGameState.movedY += -5;
-	if (moveUp) mGameState.movedY += 5;
-	if (moveRight) mGameState.movedX += -5;
-	if (moveLeft) mGameState.movedX += 5;
+	if (moveDown && (mMap->getAllowDirection(mGameState.player->getHitbox()) & 0b0010))
+		mGameState.movedY += -5;
+	if (moveUp && (mMap->getAllowDirection(mGameState.player->getHitbox()) & 0b0001))
+		mGameState.movedY += 5;
+	if (moveRight && (mMap->getAllowDirection(mGameState.player->getHitbox()) & 0b1000))
+		mGameState.movedX += -5;
+	if (moveLeft && (mMap->getAllowDirection(mGameState.player->getHitbox()) & 0b0100))
+		mGameState.movedX += 5;
 
 	enemySpawnDeltaTime -= mGameState.delta;
 	//SDL_Log("enemy: %lld, delta: %lld", enemySpawnDeltaTime, mGameState.delta);

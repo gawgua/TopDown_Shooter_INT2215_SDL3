@@ -11,7 +11,7 @@ Enemy::Enemy(GameState* gameState)
 		SDL_Log("Failed to load enemy texture: %s", SDL_GetError());
 	}
 
-	SDL_Point spawnPos = getRandSpawnPos();
+	SDL_Point spawnPos = getRandSpawnPos(mGameState->game->getMap());
 	float texX = spawnPos.x;
 	float texY = spawnPos.y;
 	mTexRect = { texX, texY, mTexSize, mTexSize };
@@ -38,7 +38,7 @@ void Enemy::Update()
 	isCollisionWith(mGameState->player);
 }
 
-SDL_Point Enemy::getRandSpawnPos()
+SDL_Point Enemy::getRandSpawnPos(Map* map)
 {
 	enum ScreenSide 
 	{ 
@@ -47,29 +47,32 @@ SDL_Point Enemy::getRandSpawnPos()
 		BOTTOM, 
 		LEFT 
 	};
-	SDL_Point spawnPos = { 0, 0 };
-	//random spawn position
-	ScreenSide side = (ScreenSide)(SDL_rand(4));
 
-	switch (side)
-	{
-	case TOP:
-		spawnPos.x = SDL_rand(SCREEN_WIDTH);
-		spawnPos.y = -100;
-		break;
-	case RIGHT:
-		spawnPos.x = SCREEN_WIDTH;
-		spawnPos.y = SDL_rand(SCREEN_HEIGHT);
-		break;
-	case BOTTOM:
-		spawnPos.x = SDL_rand(SCREEN_WIDTH);
-		spawnPos.y = SCREEN_HEIGHT;
-		break;
-	case LEFT:
-		spawnPos.x = -100;
-		spawnPos.y = SDL_rand(SCREEN_HEIGHT);
-		break;
-	}
+	SDL_Point spawnPos = { 0, 0 };
+	do {
+		//random spawn position
+		ScreenSide side = (ScreenSide)(SDL_rand(4));
+
+		switch (side)
+		{
+		case TOP:
+			spawnPos.x = SDL_rand(SCREEN_WIDTH);
+			spawnPos.y = -100;
+			break;
+		case RIGHT:
+			spawnPos.x = SCREEN_WIDTH;
+			spawnPos.y = SDL_rand(SCREEN_HEIGHT);
+			break;
+		case BOTTOM:
+			spawnPos.x = SDL_rand(SCREEN_WIDTH);
+			spawnPos.y = SCREEN_HEIGHT;
+			break;
+		case LEFT:
+			spawnPos.x = -100;
+			spawnPos.y = SDL_rand(SCREEN_HEIGHT);
+			break;
+		}
+	} while (!map->isInMap({(float)spawnPos.x, (float)spawnPos.y, 100.0, 100.0}));
 
 	return spawnPos;
 }

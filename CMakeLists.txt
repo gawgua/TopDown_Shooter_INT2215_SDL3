@@ -4,6 +4,8 @@ project(TopDownShooter)
 set(CMAKE_CXX_STANDARD 20)
 
 set(SDLIMAGE_AVIF OFF) # Disable AVIF support because of dav1d
+set(SDLIMAGE_WEBP OFF)
+set(SDLIMAGE_TIF OFF)
 if (LINUX)
 	set(SDLMIXER_MIDI_FLUIDSYNTH OFF) # Disable FluidSynth because of libfluidsynth error on Linux
 endif()
