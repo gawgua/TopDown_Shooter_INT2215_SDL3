@@ -21,6 +21,7 @@ MainMenu::~MainMenu()
 	delete mExitButton;
 }
 
+static double deltaTime = 0.0f;
 void MainMenu::Run()
 {
 	SDL_Event e;
@@ -47,24 +48,31 @@ void MainMenu::Run()
 			}
 		}
 		Render();
-
-		SDL_Delay(1000 / TARGET_FPS);
 	}
 	
 	if (mStartPlay)
 	{
 		//fade in tutorial screen
-		Uint8 alpha = 0;
-		while (alpha < 255)
+		double alpha = 0;
+		while (alpha < 1.0)
 		{
-			SDL_SetTextureAlphaMod(mTutorialTexture, ++alpha);
+			SDL_PollEvent(&e);
+			if (e.type == SDL_EVENT_QUIT)
+			{
+				mGameState->game->userExit();
+				break;
+			}
+
+			double before = (double)SDL_GetPerformanceCounter() / SDL_GetPerformanceFrequency();
+
+			alpha += deltaTime * 0.33; //33% alpha per second
+			SDL_SetTextureAlphaMod(mTutorialTexture, (Uint8)(255.0 * alpha));
 			SDL_RenderTexture(mGameState->game->getRenderer(), mTutorialTexture, NULL, NULL);
 			SDL_RenderPresent(mGameState->game->getRenderer());
-
-			SDL_Delay(10);
+			
+			double after = (double)SDL_GetPerformanceCounter() / SDL_GetPerformanceFrequency();
+			deltaTime = after - before;
 		}
-
-		SDL_Delay(2000);
 	}
 }
 
