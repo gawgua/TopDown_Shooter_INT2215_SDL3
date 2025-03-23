@@ -50,8 +50,6 @@ void GameOver::Run()
 			}
 		}
 		Render();
-
-		SDL_Delay(1000 / TARGET_FPS);
 	}
 
 	mStartPlay = false;

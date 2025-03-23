@@ -57,7 +57,6 @@ void Game::Quit()
 	SDL_Quit();
 }
 
-static int updateDeltaTime = 1000 / TARGET_FPS;
 void Game::Run()
 {
 	//initialize game
@@ -79,21 +78,15 @@ void Game::Run()
 
 	while (!mGameState.isGameOver && !mGameState.isUserExit)
 	{
-		//delta time
-		Uint64 now = SDL_GetTicks();
-		mGameState.delta = now - mPrevTick;
-		mPrevTick = now;
+		double before = (double)SDL_GetPerformanceCounter() / SDL_GetPerformanceFrequency();
 
-		//update game
-		updateDeltaTime -= mGameState.delta;
-		if (updateDeltaTime <= 0)
-		{
-			ProcessInput();
-			if (!mGameState.isPaused)
-				UpdateGame();
-			RenderScreen();
-			updateDeltaTime = 1000 / TARGET_FPS;
-		}
+		ProcessInput();
+		if (!mGameState.isPaused)
+			UpdateGame();
+		RenderScreen();
+		
+		double after = (double)SDL_GetPerformanceCounter() / SDL_GetPerformanceFrequency();
+		mGameState.deltaTime = after - before;
 	}
 
 	//clear game before next game
@@ -160,22 +153,22 @@ void Game::ProcessInput()
 	}
 }
 
-static int enemySpawnDeltaTime = ENEMY_SPAWN_INTERVAL;
+double enemySpawnDeltaTime = ENEMY_SPAWN_INTERVAL;
 //idk what to do here
 void Game::UpdateGame()
 {
 	//move player
 	if (moveDown && (mMap->getAllowDirection(mGameState.player->getHitbox()) & 0b0010))
-		mGameState.movedY += -5;
+		mGameState.movedY += mGameState.deltaTime * -50;
 	if (moveUp && (mMap->getAllowDirection(mGameState.player->getHitbox()) & 0b0001))
-		mGameState.movedY += 5;
+		mGameState.movedY += mGameState.deltaTime * 50;
 	if (moveRight && (mMap->getAllowDirection(mGameState.player->getHitbox()) & 0b1000))
-		mGameState.movedX += -5;
+		mGameState.movedX += mGameState.deltaTime * -50;
 	if (moveLeft && (mMap->getAllowDirection(mGameState.player->getHitbox()) & 0b0100))
-		mGameState.movedX += 5;
+		mGameState.movedX += mGameState.deltaTime * 50;
 
-	enemySpawnDeltaTime -= mGameState.delta;
-	//SDL_Log("enemy: %lld, delta: %lld", enemySpawnDeltaTime, mGameState.delta);
+	enemySpawnDeltaTime -= mGameState.deltaTime;
+	SDL_Log("enemy: %llf, delta: %llf", enemySpawnDeltaTime, mGameState.deltaTime);
 	if (enemySpawnDeltaTime <= 0)
 	{
 		mGameState.enemies->push_back(new Enemy(&mGameState));

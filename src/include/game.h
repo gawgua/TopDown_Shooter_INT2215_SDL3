@@ -36,7 +36,6 @@ private:
 	SDL_Texture* mBgTexture;
 	UI* mUI;
 	Map* mMap;
-	Uint64 mPrevTick;
 
 	const SDL_Color mBgColor = { 123, 201, 24 };
 	const SDL_FRect mBgRenderRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };

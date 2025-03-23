@@ -4,8 +4,6 @@
 
 #define TITLE "Game ban sung cang nhat 2025"
 
-#define TARGET_FPS 60
-
 #define BACKGROUND_MUSIC_VOL 90
 
-#define ENEMY_SPAWN_INTERVAL 1000
+#define ENEMY_SPAWN_INTERVAL 2.0

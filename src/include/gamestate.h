@@ -16,7 +16,7 @@ struct GameState {
 
 	int mouseX, mouseY;
 	float movedX, movedY;
-	Uint64 delta;
+	double deltaTime;
 	Uint32 score;
 	bool isGameOver;
 	bool isUserExit;

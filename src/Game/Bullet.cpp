@@ -45,8 +45,8 @@ void Bullet::Update()
 
 void Bullet::move()
 {
-	float moveX = mSpeed * SDL_cos(mAngleRad);
-	float moveY = mSpeed * SDL_sin(mAngleRad);
+	float moveX = mGameState->deltaTime * mSpeed * SDL_cos(mAngleRad);
+	float moveY = mGameState->deltaTime * mSpeed * SDL_sin(mAngleRad);
 
 	mTexRect.x += moveX + mGameState->movedX;
 	mTexRect.y += moveY + mGameState->movedY;
