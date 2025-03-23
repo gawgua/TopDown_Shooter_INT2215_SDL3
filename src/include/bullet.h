@@ -11,12 +11,12 @@ public:
 	Bullet(GameState* gameState);
 	void Update();
 
-	void onCollision(EntityType type);
+	void onCollision(Entity* other);
 private:
 	void move();
 
 	const char* mBulletTexturePath = "assets/image/bullet.png";
 	const float mTexSize = 40.0;
 	const float mHitboxSize = 35.0;
-	const float mSpeed = 8.0;
+	const float mSpeed = 80.0;
 };

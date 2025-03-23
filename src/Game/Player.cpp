@@ -35,9 +35,9 @@ void Player::shoot()
 	mGameState->bullets->push_back(new Bullet(mGameState));
 }
 
-void Player::onCollision(EntityType type) //only trigger with enemy
+void Player::onCollision(Entity* other)
 {
-	if (type == EntityType::ENEMY)
+	if (other->getType() == EntityType::ENEMY)
 		mHp--;
 }
 

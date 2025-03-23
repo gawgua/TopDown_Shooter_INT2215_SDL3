@@ -13,7 +13,7 @@ public:
 	Enemy(GameState* gameState);
 	void Update();	
 
-	void onCollision(EntityType type);
+	void onCollision(Entity* type);
 private:
 	static SDL_Point getRandSpawnPos(Map* map);
 	void move();
@@ -23,5 +23,5 @@ private:
 	const char* mEnemyTexturePath = "assets/image/enemy.png";
 	const float mTexSize = 100.0;
 	const float mHitboxSize = 90.0;
-	float mSpeed = 2.5;
+	float mSpeed = 25;
 };

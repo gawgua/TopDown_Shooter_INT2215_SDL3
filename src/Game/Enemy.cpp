@@ -36,6 +36,20 @@ void Enemy::Update()
 	move();
 	//check collision with player
 	isCollisionWith(mGameState->player);
+	//check collision with other enemy
+	LinkedList<Enemy>::Node* enemyNode = mGameState->enemies->head();
+	while (enemyNode)
+	{
+		if (enemyNode->data != this)
+		{
+			SDL_FRect enemyHitbox = enemyNode->data->getHitbox();
+			if (SDL_HasRectIntersectionFloat(&mHitboxRect, &enemyHitbox))
+			{
+				isCollisionWith(enemyNode->data);
+			}
+		}
+		enemyNode = enemyNode->next;
+	}
 }
 
 SDL_Point Enemy::getRandSpawnPos(Map* map)
@@ -88,16 +102,52 @@ void Enemy::move()
 	mHitboxRect.y += moveY + mGameState->movedY;
 }
 
-void Enemy::onCollision(EntityType type) //only trigger with bullet
+void Enemy::onCollision(Entity* other)
 {
-	if (type == EntityType::BULLET)
+	if (other->getType() == EntityType::BULLET)
 	{
 		mIsAlive = false;
 		mGameState->score++;
 	}
-	if (type == EntityType::PLAYER)
+	if (other->getType() == EntityType::PLAYER)
 	{
 		mIsAlive = false;
+	}
+	if (other->getType() == EntityType::ENEMY)
+	{
+		//push back enemy to avoid collision with each other
+		SDL_FRect collisionRect;
+		SDL_FRect otherHitbox = other->getHitbox();
+		SDL_GetRectIntersectionFloat(&mHitboxRect, &otherHitbox, &collisionRect);
+
+		// move half of collision rect because other enemy will move the other half
+		if (collisionRect.w < collisionRect.h)
+		{
+			if (mHitboxRect.x < other->getHitbox().x)
+			{
+				mTexRect.x -= collisionRect.w / 2;
+				mHitboxRect.x -= collisionRect.w / 2;
+			}
+			else
+			{
+				mTexRect.x += collisionRect.w / 2;
+				mHitboxRect.x += collisionRect.w / 2;
+			}
+		}
+		else
+		{
+			if (mHitboxRect.y < other->getHitbox().y)
+			{
+				mTexRect.y -= collisionRect.h / 2;
+				mHitboxRect.y -= collisionRect.h / 2;
+			}
+			else
+			{
+				mTexRect.y += collisionRect.h / 2;
+				mHitboxRect.y += collisionRect.h / 2;
+			}
+		}
+
 	}
 }
 

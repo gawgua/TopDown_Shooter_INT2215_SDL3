@@ -27,8 +27,8 @@ void Entity::isCollisionWith(Entity* other)
 #ifdef TOPDOWN_DEBUG
 		SDL_Log("%s collided with %s at: %f %f", getTypeString(getType()).c_str(), getTypeString(other->getType()).c_str(), mHitboxRect.x, mHitboxRect.y);
 #endif // TOPDOWN_DEBUG
-		onCollision(other->getType());
-		other->onCollision(mType);
+		onCollision(other);
+		other->onCollision(this);
 	}
 }
 

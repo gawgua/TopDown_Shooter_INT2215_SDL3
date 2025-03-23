@@ -33,7 +33,7 @@ public:
 
 	virtual void Render();
 	virtual void Update() = 0;
-	virtual void onCollision(EntityType type) = 0;
+	virtual void onCollision(Entity* other) = 0;
 protected:
 	void checkOutsideScreen();
 

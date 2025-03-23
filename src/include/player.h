@@ -11,7 +11,7 @@ public:
 	Player(GameState* gameState);
 	void Update();
 
-	void onCollision(EntityType type);
+	void onCollision(Entity* other);
 	void shoot();
 private:
 	void rotateToMouse();

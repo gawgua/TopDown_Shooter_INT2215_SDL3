@@ -54,9 +54,9 @@ void Bullet::move()
 	mHitboxRect.y += moveY + mGameState->movedY;
 }
 
-void Bullet::onCollision(EntityType type)
+void Bullet::onCollision(Entity* other)
 {
-	if (type == EntityType::ENEMY)
+	if (other->getType() == EntityType::ENEMY)
 	{
 		mIsAlive = false;
 	}
