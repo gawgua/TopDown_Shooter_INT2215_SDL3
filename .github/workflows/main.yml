@@ -71,6 +71,8 @@ jobs:
             - name: Install dependencies # Only need this for build
               run: |
                 brew install freetype harfbuzz
+                arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+                arch -x86_64 /usr/local/bin/brew install freetype harfbuzz
             - name: CMake generate
               run: |
                 cmake -S ${{github.workspace}} --preset macos-release
