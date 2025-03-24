@@ -3,7 +3,18 @@
 #include "gameover.h"
 #include <string>
 
+#ifdef WIN32
+#include <Windows.h>
+#endif // WIN32
+
 int main(int argc, char* argv[]) {
+#ifdef WIN32
+#ifndef TOPDOWN_DEBUG
+	//hide console window
+	FreeConsole();
+#endif // !TOPDOWN_DEBUG
+#endif // WIN32
+
 	Game::Init();
 	//Game menu, game over screen
 	Game* game = new Game();
