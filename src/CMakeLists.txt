@@ -4,13 +4,15 @@ add_executable(${PROJECT_NAME} main.cpp
 	Game/Player.cpp
 	Game/Enemy.cpp 
 	Game/Bullet.cpp 
+	Game/Map.cpp
+	Game/Tree.cpp
 
 	UI/Button.cpp 
 	UI/ScoreText.cpp
 	UI/UI.cpp
 	UI/MainMenu.cpp
 	UI/GameOver.cpp
- "Game/Map.cpp")
+)
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 

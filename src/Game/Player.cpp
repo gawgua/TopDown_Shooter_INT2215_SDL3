@@ -26,6 +26,38 @@ void Player::Update()
 {
 	rotateToMouse();
 
+	for (auto tree : *mGameState->game->getMap()->getTrees())
+	{
+		SDL_FRect intersection;
+		SDL_FRect treeHitbox = tree->getHitbox();
+		if (SDL_GetRectIntersectionFloat(&mHitboxRect, &treeHitbox, &intersection))
+		{
+			// move half of collision rect because other enemy will move the other half
+			if (intersection.w < intersection.h)
+			{
+				if (mHitboxRect.x < treeHitbox.x)
+				{
+					mGameState->movedX += intersection.w;
+				}
+				else
+				{
+					mGameState->movedX -= intersection.w;
+				}
+			}
+			else
+			{
+				if (mHitboxRect.y < treeHitbox.y)
+				{
+					mGameState->movedY += intersection.h;
+				}
+				else
+				{
+					mGameState->movedY -= intersection.h;
+				}
+			}
+		}
+	}
+
 	if (mHp <= 0)
 		mIsAlive = false;
 }

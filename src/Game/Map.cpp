@@ -5,22 +5,43 @@ Map::Map(GameState* gameState)
 	mGameState = gameState;
 	mBgTexture = IMG_LoadTexture(mGameState->game->getRenderer(), mBgTexturePath);
 	mBgTexRect = { -(float)mBgTexture->w / 2, -(float)mBgTexture->h / 2, (float)mBgTexture->w, (float)mBgTexture->h };
+
+	for (int i = 0; i < mTrees.size(); i++)
+	{
+		SDL_FPoint location = { SDL_rand(mBgTexture->w) + mBgTexRect.x, SDL_rand(mBgTexture->h) + mBgTexRect.y };
+		mTrees[i] = new Tree(mGameState, location.x, location.y);
+	}
 }
 
 Map::~Map()
 {
 	SDL_DestroyTexture(mBgTexture);
+
+	for (Tree* tree : mTrees)
+	{
+		delete tree;
+	}
 }
 
 void Map::Update()
 {
 	mBgTexRect.x += mGameState->movedX;
 	mBgTexRect.y += mGameState->movedY;
+
+	for (Tree* tree : mTrees)
+	{
+		tree->Update();
+	}
 }
 
 void Map::Render()
 {
 	SDL_RenderTexture(mGameState->game->getRenderer(), mBgTexture, nullptr, &mBgTexRect);
+
+	for (Tree* tree : mTrees)
+	{
+		tree->Render();
+	}
 }
 
 bool Map::isInMap(SDL_FRect hitbox)
