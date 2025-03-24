@@ -162,8 +162,8 @@ void Enemy::rotateToPlayer()
 
 float Enemy::speedBasedOnScore()
 {
-	//+0.5 speed per 10 score
+	//+15 speed per 10 score
 	int ratio = mGameState->score / 10;
-	float random = (SDL_rand(9) - 4) / 10.0; // random from -0.4 to 0.4
-	return mSpeed + ratio * 0.5 + random;
+	float random = SDL_rand(31) - 15; // random from -15 to +15
+	return mSpeed + ratio * 15 + random;
 }

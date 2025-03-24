@@ -159,13 +159,13 @@ void Game::UpdateGame()
 {
 	//move player
 	if (moveDown && (mMap->getAllowDirection(mGameState.player->getHitbox()) & 0b0010))
-		mGameState.movedY += mGameState.deltaTime * -50;
+		mGameState.movedY += mGameState.deltaTime * -mGameState.player->getSpeed();
 	if (moveUp && (mMap->getAllowDirection(mGameState.player->getHitbox()) & 0b0001))
-		mGameState.movedY += mGameState.deltaTime * 50;
+		mGameState.movedY += mGameState.deltaTime * mGameState.player->getSpeed();
 	if (moveRight && (mMap->getAllowDirection(mGameState.player->getHitbox()) & 0b1000))
-		mGameState.movedX += mGameState.deltaTime * -50;
+		mGameState.movedX += mGameState.deltaTime * -mGameState.player->getSpeed();
 	if (moveLeft && (mMap->getAllowDirection(mGameState.player->getHitbox()) & 0b0100))
-		mGameState.movedX += mGameState.deltaTime * 50;
+		mGameState.movedX += mGameState.deltaTime * mGameState.player->getSpeed();
 
 	enemySpawnDeltaTime -= mGameState.deltaTime;
 	SDL_Log("enemy: %llf, delta: %llf", enemySpawnDeltaTime, mGameState.deltaTime);

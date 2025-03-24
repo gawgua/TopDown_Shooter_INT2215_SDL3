@@ -11,6 +11,7 @@ public:
 	Player(GameState* gameState);
 	void Update();
 
+	float getSpeed() { return mSpeed; }
 	void onCollision(Entity* other);
 	void shoot();
 private:
@@ -19,4 +20,5 @@ private:
 	const char* mPlayerTexturePath = "assets/image/player.png";
 	const float mTexSize = 100.0;
 	const float mHitboxSize = 80.0;
+	const float mSpeed = 240.0;
 };
