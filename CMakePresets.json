@@ -77,7 +77,8 @@
       "installDir": "${sourceDir}/out/install/${presetName}",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "clang",
-        "CMAKE_CXX_COMPILER": "clang++"
+        "CMAKE_CXX_COMPILER": "clang++",
+		"CMAKE_OSX_ARCHITECTURES": "arm64;x86_64"
       },
       "condition": {
         "type": "equals",

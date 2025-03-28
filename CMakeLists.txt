@@ -9,18 +9,22 @@ set(SDLIMAGE_TIF OFF)
 if (CMAKE_HOST_LINUX)
 	set(SDLMIXER_MIDI_FLUIDSYNTH OFF) # Disable FluidSynth because of libfluidsynth error on Linux
 endif()
-set(BUILD_SHARED_LIBS OFF) # Disable shared libraries
+
+# Build deps of SDL from src instead of using system libraries
+set(SDLMIXER_VENDORED ON)
+set(SDLIMAGE_VENDORED ON)
+set(SDLTTF_VENDORED ON)
+
+# Disable shared libraries
+set(BUILD_SHARED_LIBS OFF) 
 set(SDL_STATIC ON)
 set(SDLIMAGE_BUILD_SHARED_LIBS OFF)
 set(SDLTTF_BUILD_SHARED_LIBS OFF)
 set(SDLMIXER_BUILD_SHARED_LIBS OFF)
 
+# Debug mode
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 	add_compile_definitions(TOPDOWN_DEBUG)
-endif()
-
-if (CMAKE_HOST_APPLE AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
-	set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 endif()
 
 add_subdirectory(deps/SDL EXCLUDE_FROM_ALL)

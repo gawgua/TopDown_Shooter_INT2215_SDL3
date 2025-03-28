@@ -44,7 +44,7 @@ jobs:
                 libxrandr-dev libxcursor-dev libxfixes-dev libxi-dev libxss-dev libxtst-dev \
                 libxkbcommon-dev libdrm-dev libgbm-dev libgl1-mesa-dev libgles2-mesa-dev \
                 libegl1-mesa-dev libdbus-1-dev libibus-1.0-dev libudev-dev \
-                libpipewire-0.3-dev libwayland-dev libdecor-0-dev liburing-dev libfreetype6-dev
+                libpipewire-0.3-dev libwayland-dev libdecor-0-dev liburing-dev
             - name: CMake generate
               run: |
                 cmake -S ${{github.workspace}} --preset linux-release
@@ -68,11 +68,6 @@ jobs:
             - uses: actions/checkout@v3
               with:
                 submodules: 'recursive'
-            - name: Install dependencies # Only need this for build
-              run: |
-                brew install freetype harfbuzz
-                arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-                arch -x86_64 /usr/local/bin/brew install freetype harfbuzz
             - name: CMake generate
               run: |
                 cmake -S ${{github.workspace}} --preset macos-release
