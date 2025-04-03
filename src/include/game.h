@@ -4,6 +4,7 @@
 
 #include "constant.h"
 #include "gamestate.h"
+#include "audiomanager.h"
 class UI;
 #include "ui.h"
 class Map;
@@ -19,6 +20,7 @@ public:
 
 	SDL_Window* getWindow() const { return mWindow; }
 	SDL_Renderer* getRenderer() const { return mRenderer; }
+	AudioManager* getAudioManager() const { return mAudioManager; }
 	int getScore() const { return mGameState.score; }
 	Map* getMap() { return mMap; }
 	GameState* getGameState() { return &mGameState; }
@@ -32,7 +34,7 @@ private:
 	SDL_Window* mWindow;
 	SDL_Renderer* mRenderer;
 	GameState mGameState;
-	Mix_Chunk* mBgMusic;
+	AudioManager* mAudioManager;
 	SDL_Texture* mBgTexture;
 	UI* mUI;
 	Map* mMap;
@@ -40,5 +42,4 @@ private:
 	const SDL_Color mBgColor = { 123, 201, 24 };
 	const SDL_FRect mBgRenderRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	const char* mBgTexturePath = "assets/image/bg.png";
-	const char* mBgMusicPath = "assets/sound/bg_music.wav";
 };

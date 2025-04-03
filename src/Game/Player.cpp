@@ -70,7 +70,10 @@ void Player::shoot()
 void Player::onCollision(Entity* other)
 {
 	if (other->getType() == EntityType::ENEMY)
+	{
+		mGameState->game->getAudioManager()->playHurt();
 		mHp--;
+	}
 }
 
 void Player::rotateToMouse()

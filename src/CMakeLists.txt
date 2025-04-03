@@ -6,6 +6,7 @@ add_executable(${PROJECT_NAME} main.cpp
 	Game/Bullet.cpp 
 	Game/Map.cpp
 	Game/Tree.cpp
+	Game/AudioManager.cpp
 
 	UI/Button.cpp 
 	UI/ScoreText.cpp

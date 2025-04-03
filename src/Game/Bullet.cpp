@@ -58,6 +58,7 @@ void Bullet::onCollision(Entity* other)
 {
 	if (other->getType() == EntityType::ENEMY)
 	{
+		mGameState->game->getAudioManager()->playHit();
 		mIsAlive = false;
 	}
 }

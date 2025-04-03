@@ -13,19 +13,20 @@ Game::Game()
 	mRenderer = SDL_CreateRenderer(mWindow, NULL);
 	SDL_SetRenderLogicalPresentation(mRenderer, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 	SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
-	mBgMusic = Mix_LoadWAV(mBgMusicPath);
 	mBgTexture = IMG_LoadTexture(mRenderer, mBgTexturePath);
-	Mix_VolumeChunk(mBgMusic, BACKGROUND_MUSIC_VOL);
 	mGameState = { this, nullptr, nullptr, nullptr, 0, 0, 0.0, 0.0, 0, 0, false, false, false };
 	mUI = nullptr;
 	mMap = nullptr;
+	mAudioManager = new AudioManager();
 }
 
 Game::~Game()
 {
 	SDL_DestroyRenderer(mRenderer);
 	SDL_DestroyWindow(mWindow);
-	Mix_FreeChunk(mBgMusic);
+	SDL_DestroyTexture(mBgTexture);
+
+	delete mAudioManager;
 }
 
 bool Game::Init()
@@ -69,7 +70,8 @@ void Game::Run()
 	mGameState.bullets = new LinkedList<Bullet>();
 	mUI = new UI(&mGameState);
 	mMap = new Map(&mGameState);
-	Mix_FadeInChannel(-1, mBgMusic, -1, 1500); //to not suddenly start the music
+	mAudioManager->playMusic();
+	// filter out repeat key event so when player hold key the event queue will not be spammed
 	SDL_SetEventFilter([](void* userdata, SDL_Event* event) -> bool {
 		if (event->type == SDL_EVENT_KEY_DOWN || event->type == SDL_EVENT_KEY_UP)
 			return !event->key.repeat;
@@ -89,8 +91,11 @@ void Game::Run()
 		mGameState.deltaTime = after - before;
 	}
 
-	//clear game before next game
-	Mix_FadeOutChannel(-1, 500);
+	if (mGameState.isGameOver)
+	{
+		mAudioManager->playGameOver();
+	}
+
 	//clear all array of player, bullet, enemy
 	delete mGameState.enemies;
 	delete mGameState.bullets;
@@ -116,6 +121,7 @@ void Game::ProcessInput()
 		case SDL_EVENT_MOUSE_BUTTON_DOWN:
 			//mGameState.score++;
 			mGameState.player->shoot();
+			mAudioManager->playShoot();
 			break;
 		case SDL_EVENT_MOUSE_MOTION:
 			mGameState.mouseX = event.motion.x;
@@ -133,7 +139,11 @@ void Game::ProcessInput()
 					SDL_Log("Game paused");
 #endif // TOPDOWN_DEBUG
 				if (event.key.down)
+				{
+					mAudioManager->playClick();
+					mAudioManager->toggleMusic();
 					mGameState.isPaused = !mGameState.isPaused;
+				}
 				break;
 			case SDLK_W:
 				moveUp = event.key.down;
