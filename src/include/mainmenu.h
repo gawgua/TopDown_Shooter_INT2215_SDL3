@@ -4,6 +4,7 @@
 
 #include "constant.h"
 #include "button.h"
+#include "slider.h"
 #include "gamestate.h"
 
 class MainMenu
@@ -23,6 +24,7 @@ private:
 	SDL_Texture* mTutorialTexture;
 	Button* mPlayButton;
 	Button* mExitButton;
+	Slider* mSlider;
 	bool mStartPlay = false;
 
 	const char* mBgTexturePath = "assets/image/mainmenu.png";

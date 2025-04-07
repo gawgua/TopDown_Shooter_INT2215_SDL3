@@ -10,6 +10,7 @@ MainMenu::MainMenu(GameState* gameState)
 	SDL_SetTextureAlphaMod(mTutorialTexture, 0);
 	mPlayButton = new Button(gameState->game->getRenderer(), mPlayButtonTexture, 157, 733, 199, 116, [this]() { mStartPlay = true; });
 	mExitButton = new Button(gameState->game->getRenderer(), mExitButtonTexture, 394, 733, 201, 117, [this]() { mGameState->game->userExit(); });
+	mSlider = new Slider(gameState->game->getRenderer(), { 255, 0, 0, 255 }, 635, 730, 250, 115, 100);
 }
 
 MainMenu::~MainMenu()
@@ -19,6 +20,7 @@ MainMenu::~MainMenu()
 	//button destructor will destroy its texture
 	delete mPlayButton;
 	delete mExitButton;
+	delete mSlider;
 }
 
 static double deltaTime = 0.0f;
@@ -39,10 +41,18 @@ void MainMenu::Run()
 				mExitButton->IsHover(e.button.x, e.button.y);
 				break;
 			case SDL_EVENT_MOUSE_BUTTON_DOWN:
-				if (mPlayButton->IsClicked(e.button.x, e.button.y)
-					|| mExitButton->IsClicked(e.button.x, e.button.y)
-					|| mSlider->IsClicked(e.button.x, e.button.y))
-					mGameState->game->getAudioManager()->playClick();
+				if (e.button.button == SDL_BUTTON_LEFT)
+				{
+					if (mPlayButton->IsClicked(e.button.x, e.button.y)
+						|| mExitButton->IsClicked(e.button.x, e.button.y))
+						mGameState->game->getAudioManager()->playClick();
+					if (mSlider->IsClicked(e.button.x, e.button.y))
+					{
+						mGameState->game->getAudioManager()->setMusicVolume(mSlider->GetValue() * 128 / 100);
+						mGameState->game->getAudioManager()->setSoundEffectVolume(mSlider->GetValue() * 128 / 100);
+						mGameState->game->getAudioManager()->playClick();
+					}
+				}
 				break;
 			}
 		}
@@ -82,5 +92,6 @@ void MainMenu::Render()
 	SDL_RenderTexture(mGameState->game->getRenderer(), mBgTexture, NULL, NULL);
 	mPlayButton->Render();
 	mExitButton->Render();
+	mSlider->Render();
 	SDL_RenderPresent(mGameState->game->getRenderer());
 }
