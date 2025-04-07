@@ -34,7 +34,7 @@ void Slider::Render()
 	SDL_Surface* surface = TTF_RenderText_Solid(mFont, std::to_string(mValue).c_str(), 0, {0, 0, 0});
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(mRenderer, surface);
 	SDL_DestroySurface(surface);
-	SDL_FRect textRect = { mFrontRect.x + mFrontRect.w - texture->w, mFrontRect.y + mFrontRect.h / 2 - texture->h / 2, texture->w, texture->h };
+	SDL_FRect textRect = { mFrontRect.x + mFrontRect.w - texture->w, mFrontRect.y + mFrontRect.h / 2 - texture->h / 2, (float)texture->w, (float)texture->h };
 	SDL_RenderTexture(mRenderer, texture, NULL, &textRect);
 }
 
