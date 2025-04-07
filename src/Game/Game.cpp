@@ -86,6 +86,8 @@ void Game::Run()
 		if (!mGameState.isPaused)
 			UpdateGame();
 		RenderScreen();
+
+		SDL_Delay(1); // 1ms delay to prevent 90% GPU usage
 		
 		double after = (double)SDL_GetPerformanceCounter() / SDL_GetPerformanceFrequency();
 		mGameState.deltaTime = after - before;
