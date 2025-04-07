@@ -39,17 +39,16 @@ void MainMenu::Run()
 				mExitButton->IsHover(e.button.x, e.button.y);
 				break;
 			case SDL_EVENT_MOUSE_BUTTON_DOWN:
-				if (e.button.button == SDL_BUTTON_LEFT)
-				{
-					mPlayButton->IsClicked(e.button.x, e.button.y);
-					mExitButton->IsClicked(e.button.x, e.button.y);
-				}
+				if (mPlayButton->IsClicked(e.button.x, e.button.y)
+					|| mExitButton->IsClicked(e.button.x, e.button.y)
+					|| mSlider->IsClicked(e.button.x, e.button.y))
+					mGameState->game->getAudioManager()->playClick();
 				break;
 			}
 		}
 		Render();
 	}
-	
+
 	if (mStartPlay)
 	{
 		//fade in tutorial screen
@@ -69,7 +68,7 @@ void MainMenu::Run()
 			SDL_SetTextureAlphaMod(mTutorialTexture, (Uint8)(255.0 * alpha));
 			SDL_RenderTexture(mGameState->game->getRenderer(), mTutorialTexture, NULL, NULL);
 			SDL_RenderPresent(mGameState->game->getRenderer());
-			
+
 			double after = (double)SDL_GetPerformanceCounter() / SDL_GetPerformanceFrequency();
 			deltaTime = after - before;
 		}

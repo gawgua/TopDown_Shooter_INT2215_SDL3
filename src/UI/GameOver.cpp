@@ -43,8 +43,9 @@ void GameOver::Run()
 			case SDL_EVENT_MOUSE_BUTTON_DOWN:
 				if (e.button.button == SDL_BUTTON_LEFT)
 				{
-					mPlayAgainButton->IsClicked(e.button.x, e.button.y);
-					mExitButton->IsClicked(e.button.x, e.button.y);
+					if (mPlayAgainButton->IsClicked(e.button.x, e.button.y) 
+					|| mExitButton->IsClicked(e.button.x, e.button.y))
+						mGameState->game->getAudioManager()->playClick();
 				}
 				break;
 			}
