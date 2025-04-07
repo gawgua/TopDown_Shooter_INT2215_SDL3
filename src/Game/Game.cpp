@@ -91,6 +91,7 @@ void Game::Run()
 		mGameState.deltaTime = after - before;
 	}
 
+	mAudioManager->toggleMusic();
 	if (mGameState.isGameOver)
 	{
 		mAudioManager->playGameOver();
