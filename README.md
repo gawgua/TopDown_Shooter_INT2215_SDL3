@@ -1,19 +1,42 @@
 # TopDown_Shooter_INT2215_SDL3
-Game Project for INT2215 (Advanced Programming) in Semester 24252 
+
+Project for INT2215 (Advanced Programming) subject in Semester 24252 at University of Engineering and Technology - Vietnam National University.
+
+## How to play?
+
+Keybind:
+
+- WASD: Movement
+- Left Mouse: Shoot
+- Esc: Pause Game
 
 ## How to build from source?
-1. Clone this repo:\
-   Run this command
-   ```bash
+
+### 1. Clone this repo
+
+Run this command
+
+```bash
    mkdir TopDownShooter
    cd TopDownShooter
    git clone --recurse-submodules https://github.com/gawgua/TopDown_Shooter_INT2215_SDL3.git
-   ```
-2. Build:\
-	Run this command (add `-G "MinGW Makefiles"` if using MinGW on Windows)
-	```bash
-	cmake -S . -B build
-	cmake --build build
-	```
+```
 
-The build should be located on ./build/src/Debug or ./build/src/Release
+### 2. Build
+
+```bash
+ cmake --preset <preset>
+```
+
+The build should be located on `./out/build/src/Debug` or `./out/build/src/Release`
+
+## Issues
+
+- The game use GameState struct as global object to pass around all the object in the game. This created circular dependencies and need to be refactored.
+- Need to add Setting menu.
+- The texture of this game is kinda mid.
+
+## Author
+
+24020254 - Nguyen Ngoc Khoi Nguyen\
+QH-2024-I/CQ-I-IT2
