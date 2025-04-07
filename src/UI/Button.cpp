@@ -25,10 +25,7 @@ void Button::Render()
 
 bool Button::IsClicked(float x, float y)
 {
-	float rx, ry;
-	convertMousePosToRender(mRenderer, x, y, &rx, &ry);
-
-	if (rx >= mRect.x && rx <= mRect.x + mRect.w && ry >= mRect.y && ry <= mRect.y + mRect.h)
+	if (IsHover(x,y))
 	{
 		mFunc();
 		return true;
@@ -40,13 +37,8 @@ bool Button::IsClicked(float x, float y)
 bool Button::IsHover(float x, float y)
 {
 	float rx, ry;
-	convertMousePosToRender(mRenderer, x, y, &rx, &ry);
+	SDL_RenderCoordinatesFromWindow(mRenderer, x, y, &rx, &ry);
 
 	mIsHover = (rx >= mRect.x && rx <= mRect.x + mRect.w && ry >= mRect.y && ry <= mRect.y + mRect.h);
 	return mIsHover;
-}
-
-void Button::convertMousePosToRender(SDL_Renderer* renderer, float x, float y, float* rx, float* ry)
-{
-	SDL_RenderCoordinatesFromWindow(renderer, x, y, rx, ry);
 }

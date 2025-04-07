@@ -13,8 +13,6 @@ public:
 	void Render();
 	bool IsClicked(float x, float y);
 	bool IsHover(float x, float y);
-
-	static void convertMousePosToRender(SDL_Renderer* renderer, float x, float y, float* rx, float* ry);
 private:
 	SDL_Texture* mTexture;
 	SDL_FRect mRect;
