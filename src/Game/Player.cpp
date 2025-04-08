@@ -20,6 +20,7 @@ Player::Player(GameState* gameState)
 	mHitboxRect = { hitboxX, hitboxY, mHitboxSize, mHitboxSize };
 	mAngle = 0;
 	mHp = 5;
+	mdeltaTimeShoot = 0.0f;
 }
 
 void Player::Update()
@@ -60,10 +61,15 @@ void Player::Update()
 
 	if (mHp <= 0)
 		mIsAlive = false;
+
+	mdeltaTimeShoot -= mGameState->deltaTime;
 }
 
 void Player::shoot()
 {
+	if (mdeltaTimeShoot > 0.0f)
+		return;
+	mdeltaTimeShoot = 0.5f; // 2 shots per second
 	mGameState->bullets->push_back(new Bullet(mGameState));
 }
 

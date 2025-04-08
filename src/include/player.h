@@ -17,6 +17,8 @@ public:
 private:
 	void rotateToMouse();
 
+	float mdeltaTimeShoot;
+
 	const char* mPlayerTexturePath = "assets/image/player.png";
 	const float mTexSize = 100.0;
 	const float mHitboxSize = 80.0;
