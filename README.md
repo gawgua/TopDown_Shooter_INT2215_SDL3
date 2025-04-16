@@ -33,6 +33,8 @@ The build should be located on `./out/build/src/Debug` or `./out/build/src/Relea
 ## Issues
 
 - The game use GameState struct as global object to pass around all the object in the game. This created circular dependencies and need to be refactored.
+- Zombie still dont collide with tree (can be fix by copy logic of Player to Enemy class).
+- Tree spawning outside of map, and spawn on top each other.
 - Need to add Setting menu.
 - The texture of this game is kinda mid.
 
