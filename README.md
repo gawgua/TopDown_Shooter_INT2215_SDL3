@@ -10,6 +10,12 @@ Keybind:
 - Left Mouse: Shoot
 - Esc: Pause Game
 
+## Image of the game
+
+![image](https://github.com/user-attachments/assets/644867c7-e8ac-4dc8-a83c-a4f0495d7b39)
+![image](https://github.com/user-attachments/assets/52b7c060-6128-4ea9-ac0c-f0c45b1d14c8)
+![image](https://github.com/user-attachments/assets/fa0b550c-91cd-41a3-a6c6-d36bc7759e3e)
+
 ## How to build from source?
 
 ### 1. Clone this repo
